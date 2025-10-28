@@ -14,8 +14,8 @@ interface Event {
   title: string;
   date: string;
   time: string;
-  image: string;
-  bookingLink?: string;
+  image_url: string;
+  booking_link?: string;
 }
 
 interface EventsCarouselProps {
@@ -39,8 +39,8 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
                 title={event.title}
                 date={event.date}
                 time={event.time}
-                image={event.image}
-                bookingLink={event.bookingLink}
+                image={event.image_url}
+                bookingLink={event.booking_link}
                 variant="clickable"
               />
             </CarouselItem>

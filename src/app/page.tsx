@@ -42,8 +42,8 @@ export default function Home() {
           title: event.title,
           date: event.date,
           time: event.time,
-          image: event.image_url,
-          bookingLink: event.booking_link,
+          image_url: event.image_url,
+          booking_link: event.booking_link,
           parsedDate: parse(event.date, "MMMM d, yyyy", new Date())
         }))
         .filter(event => {
