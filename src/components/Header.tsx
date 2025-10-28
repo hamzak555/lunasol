@@ -165,7 +165,7 @@ export function Header() {
 
           {/* Email Icon */}
           <Link
-            href="mailto:info@lunasol.com"
+            href="mailto:info@lunasol-miami.com"
             className="flex items-center px-6 py-3 transition-all hover:bg-[#806D4B]/20"
             style={{ color: '#DCD3B8' }}
           >

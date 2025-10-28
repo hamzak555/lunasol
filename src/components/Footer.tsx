@@ -130,8 +130,8 @@ export function Footer() {
                   fontFamily: 'var(--font-pangea)'
                 }}
               >
-                <p>Friday <span className="font-semibold">10PM - 3AM</span></p>
-                <p>Saturday <span className="font-semibold">10PM - 3AM</span></p>
+                <p>Friday <span>10PM - 3AM</span></p>
+                <p>Saturday <span>10PM - 3AM</span></p>
               </div>
             </div>
 
@@ -197,7 +197,7 @@ export function Footer() {
 
               {/* Email Icon */}
               <Link
-                href="mailto:info@lunasol.com"
+                href="mailto:info@lunasol-miami.com"
                 className="transition-colors hover:text-[#806D4B]"
                 style={{ color: '#DCD3B8' }}
               >

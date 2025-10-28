@@ -77,7 +77,7 @@ export default function PrivacyPolicyPage() {
     },
     {
       title: "Contact Us",
-      content: "If you have questions or concerns about this Privacy Policy or our data practices, please contact us at info@lunasol.com or visit our Contact page."
+      content: "If you have questions or concerns about this Privacy Policy or our data practices, please contact us at info@lunasol-miami.com or visit our Contact page."
     }
   ];
 

@@ -112,18 +112,44 @@ export default function FamilyPage() {
           }}
         />
 
+        {/* Spotted Pattern - Left side cropped */}
+        <div
+          className="absolute top-1/2 -left-32 pointer-events-none"
+          style={{ width: '800px', height: '800px', zIndex: 5, opacity: 0.3, transform: 'translateY(-50%)' }}
+        >
+          <Image
+            src="/Images/Spotted Pattern.svg"
+            alt="Spotted Pattern"
+            fill
+            style={{ objectFit: 'contain' }}
+          />
+        </div>
+
         <div className="relative z-10 container mx-auto px-8 max-w-7xl">
           {/* Page Title */}
-          <h1
-            className="text-5xl font-bold tracking-wide mb-12 text-center"
-            style={{
-              color: '#806D4B',
-              fontFamily: 'var(--font-gascogne)',
-              fontWeight: '900'
-            }}
-          >
-            FAMILY
-          </h1>
+          <div className="text-center mb-12 animate-fade-in">
+            <h1
+              className="text-5xl font-bold tracking-wide mb-8"
+              style={{
+                color: '#806D4B',
+                fontFamily: 'var(--font-gascogne)',
+                fontWeight: '900'
+              }}
+            >
+              FAMILY
+            </h1>
+
+            {/* Split Moon Icon */}
+            <div className="flex justify-center">
+              <Image
+                src="/Images/Split Moon.svg"
+                alt="Split Moon Icon"
+                width={104}
+                height={104}
+                style={{ opacity: 0.7 }}
+              />
+            </div>
+          </div>
 
           {loading ? (
             <div
@@ -140,13 +166,13 @@ export default function FamilyPage() {
               No artists to display yet.
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-slide-up delay-200">
               {artists.map((artist) => (
                 <div
                   key={artist.id}
                   onClick={() => handleArtistClick(artist)}
                   className={`group relative rounded-lg overflow-hidden transition-all ${
-                    artist.instagram_handle ? 'cursor-pointer hover:scale-105' : ''
+                    artist.instagram_handle ? 'cursor-pointer' : ''
                   }`}
                   style={{
                     aspectRatio: '1/1',

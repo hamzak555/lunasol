@@ -122,31 +122,33 @@ export default function ContactPage() {
 
         <div className="relative z-10 container mx-auto px-8 max-w-6xl">
           {/* Page Title */}
-          <h1
-            className="text-6xl font-bold tracking-wide mb-6 text-center"
-            style={{
-              color: '#806D4B',
-              fontFamily: 'var(--font-gascogne)',
-              fontWeight: '900'
-            }}
-          >
-            GET IN TOUCH
-          </h1>
+          <div className="animate-fade-in">
+            <h1
+              className="text-6xl font-bold tracking-wide mb-6 text-center"
+              style={{
+                color: '#806D4B',
+                fontFamily: 'var(--font-gascogne)',
+                fontWeight: '900'
+              }}
+            >
+              GET IN TOUCH
+            </h1>
 
-          {/* Sun Icon */}
-          <div className="flex justify-center mb-12">
-            <Image
-              src="/Images/Sun Icon 1.svg"
-              alt="Sun Icon"
-              width={104}
-              height={104}
-              style={{ opacity: 0.7 }}
-            />
+            {/* Sun Icon */}
+            <div className="flex justify-center mb-12">
+              <Image
+                src="/Images/Sun Icon 1.svg"
+                alt="Sun Icon"
+                width={104}
+                height={104}
+                style={{ opacity: 0.7 }}
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Information */}
-            <div className="space-y-8">
+            <div className="space-y-8 animate-slide-in-left delay-200">
               <div
                 className="p-6 rounded-lg"
                 style={{
@@ -218,14 +220,14 @@ export default function ContactPage() {
                       Email
                     </h3>
                     <a
-                      href="mailto:info@lunasol.com"
+                      href="mailto:info@lunasol-miami.com"
                       className="transition-colors hover:text-[#806D4B]"
                       style={{
                         color: '#DCD3B8',
                         fontFamily: 'var(--font-pangea)'
                       }}
                     >
-                      info@lunasol.com
+                      info@lunasol-miami.com
                     </a>
                   </div>
 
@@ -323,7 +325,7 @@ export default function ContactPage() {
 
             {/* Contact Form */}
             <div
-              className="p-8 rounded-lg"
+              className="p-8 rounded-lg animate-slide-in-right delay-400"
               style={{
                 backgroundColor: '#2C2C2C',
                 border: '2px solid #806D4B'

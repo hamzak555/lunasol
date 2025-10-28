@@ -242,7 +242,7 @@ export default function Home() {
           <div className="container mx-auto px-8 max-w-7xl py-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Side - Text Content */}
-              <div className="space-y-6">
+              <div className="space-y-6 animate-slide-in-left">
                 <h2
                   className="text-6xl font-bold tracking-wide"
                   style={{
@@ -268,7 +268,7 @@ export default function Home() {
               <div className="relative h-[500px]">
                 {/* Image 1 */}
                 <div
-                  className="absolute top-0 left-0 w-[70%] h-[350px] rounded-lg overflow-hidden"
+                  className="absolute top-0 left-0 w-[70%] h-[350px] rounded-lg overflow-hidden animate-slide-in-right delay-200"
                   style={{
                     border: '2px solid #806D4B',
                     backgroundColor: '#2C2C2C',
@@ -285,7 +285,7 @@ export default function Home() {
 
                 {/* Image 2 - Overlapped */}
                 <div
-                  className="absolute bottom-0 right-0 w-[70%] h-[350px] rounded-lg overflow-hidden"
+                  className="absolute bottom-0 right-0 w-[70%] h-[350px] rounded-lg overflow-hidden animate-slide-in-right delay-400"
                   style={{
                     border: '2px solid #806D4B',
                     backgroundColor: '#2C2C2C',
@@ -325,7 +325,7 @@ export default function Home() {
           <div className="container mx-auto px-8 max-w-7xl pb-8 overflow-visible">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center overflow-visible">
               {/* Left Side - Image */}
-              <div className="relative h-[300px] w-full max-w-[500px] rounded-lg overflow-visible">
+              <div className="relative h-[300px] w-full max-w-[500px] rounded-lg overflow-visible animate-slide-in-left">
                 {/* Sun and Moon - Behind Image as Accent */}
                 <div className="absolute -top-28 -left-32 pointer-events-none" style={{ zIndex: 0 }}>
                   <Image
@@ -351,7 +351,7 @@ export default function Home() {
               </div>
 
               {/* Right Side - Text Content */}
-              <div className="space-y-4">
+              <div className="space-y-4 animate-slide-in-right delay-200">
                 <h2
                   className="text-5xl font-bold tracking-wide"
                   style={{
@@ -388,12 +388,11 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Guest List Section */}
-      <div
+      {/* Guest List Section - Hidden */}
+      {/* <div
         className="relative overflow-hidden"
         style={{ backgroundColor: '#1F1F1F' }}
       >
-        {/* Grain texture */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -403,11 +402,9 @@ export default function Home() {
           }}
         />
 
-        {/* Content */}
         <div className="relative z-10">
           <div className="container mx-auto px-8 max-w-7xl py-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-              {/* Left Side - Text Content */}
               <div className="space-y-4">
                 <h2
                   className="text-5xl font-bold tracking-wide"
@@ -441,7 +438,6 @@ export default function Home() {
                 </button>
               </div>
 
-              {/* Right Side - Image */}
               <div className="relative h-[300px] w-full max-w-[500px] ml-auto rounded-lg overflow-visible" style={{ border: '2px solid #806D4B' }}>
                 <div className="absolute inset-0 rounded-lg overflow-hidden">
                   <Image
@@ -451,7 +447,6 @@ export default function Home() {
                     style={{ objectFit: 'cover' }}
                   />
                 </div>
-                {/* Split Moon Overlay - Middle Bottom */}
                 <div className="absolute bottom-8 left-1/2 pointer-events-none" style={{ transform: 'translateX(-50%)', zIndex: 10 }}>
                   <Image
                     src="/Images/Split Moon.svg"
@@ -467,7 +462,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Call to Action - View All Events */}
       <div
@@ -489,7 +484,7 @@ export default function Home() {
           <div className="container mx-auto px-8 max-w-7xl py-20">
             {/* Outlined CTA Box */}
             <div
-              className="relative rounded-lg overflow-hidden"
+              className="relative rounded-lg overflow-hidden animate-slide-up"
               style={{
                 border: '3px solid #806D4B',
                 backgroundColor: 'rgba(31, 31, 31, 0.5)'

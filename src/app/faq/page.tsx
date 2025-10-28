@@ -117,29 +117,31 @@ export default function FAQPage() {
 
         <div className="relative z-10 container mx-auto px-8 max-w-4xl">
           {/* Page Title */}
-          <h1
-            className="text-6xl font-bold tracking-wide mb-4 text-center"
-            style={{
-              color: '#806D4B',
-              fontFamily: 'var(--font-gascogne)',
-              fontWeight: '900'
-            }}
-          >
-            FREQUENTLY ASKED QUESTIONS
-          </h1>
+          <div className="animate-fade-in">
+            <h1
+              className="text-6xl font-bold tracking-wide mb-4 text-center"
+              style={{
+                color: '#806D4B',
+                fontFamily: 'var(--font-gascogne)',
+                fontWeight: '900'
+              }}
+            >
+              FREQUENTLY ASKED QUESTIONS
+            </h1>
 
-          <p
-            className="text-lg text-center mb-12"
-            style={{
-              color: '#DCD3B8',
-              fontFamily: 'var(--font-pangea)'
-            }}
-          >
-            Everything you need to know about Lunasol Miami
-          </p>
+            <p
+              className="text-lg text-center mb-12"
+              style={{
+                color: '#DCD3B8',
+                fontFamily: 'var(--font-pangea)'
+              }}
+            >
+              Everything you need to know about Lunasol Miami
+            </p>
+          </div>
 
           {/* FAQ Accordion */}
-          <Accordion type="single" collapsible className="space-y-4">
+          <Accordion type="single" collapsible className="space-y-4 animate-slide-up delay-200">
             {faqs.map((faq, index) => (
               <AccordionItem
                 key={index}

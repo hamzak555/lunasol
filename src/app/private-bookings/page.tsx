@@ -134,31 +134,33 @@ export default function PrivateBookingsPage() {
 
         <div className="relative z-10 container mx-auto px-8 max-w-6xl">
           {/* Page Title */}
-          <h1
-            className="text-6xl font-bold tracking-wide mb-4 text-center"
-            style={{
-              color: '#806D4B',
-              fontFamily: 'var(--font-gascogne)',
-              fontWeight: '900'
-            }}
-          >
-            PRIVATE BOOKINGS
-          </h1>
+          <div className="animate-fade-in">
+            <h1
+              className="text-6xl font-bold tracking-wide mb-4 text-center"
+              style={{
+                color: '#806D4B',
+                fontFamily: 'var(--font-gascogne)',
+                fontWeight: '900'
+              }}
+            >
+              PRIVATE BOOKINGS
+            </h1>
 
-          {/* Sun Icon */}
-          <div className="flex justify-center mb-12">
-            <Image
-              src="/Images/Sun Icon 2.svg"
-              alt="Sun Icon"
-              width={104}
-              height={104}
-              style={{ opacity: 0.7 }}
-            />
+            {/* Sun Icon */}
+            <div className="flex justify-center mb-12">
+              <Image
+                src="/Images/Sun Icon 2.svg"
+                alt="Sun Icon"
+                width={104}
+                height={104}
+                style={{ opacity: 0.7 }}
+              />
+            </div>
           </div>
 
           {/* Intro Section */}
           <div
-            className="mb-12 p-8 rounded-lg"
+            className="mb-12 p-8 rounded-lg animate-slide-up delay-200"
             style={{
               backgroundColor: '#2C2C2C',
               border: '2px solid #806D4B'
@@ -239,7 +241,7 @@ export default function PrivateBookingsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Booking Form */}
             <div
-              className="p-8 rounded-lg"
+              className="p-8 rounded-lg animate-slide-in-left delay-300"
               style={{
                 backgroundColor: '#2C2C2C',
                 border: '2px solid #806D4B'
@@ -484,7 +486,7 @@ export default function PrivateBookingsPage() {
             </div>
 
             {/* Event Types & Information */}
-            <div className="space-y-6">
+            <div className="space-y-6 animate-slide-in-right delay-500">
               <div
                 className="p-6 rounded-lg"
                 style={{

@@ -179,7 +179,7 @@ export default function GalleryPage() {
         {/* Hero Section */}
         <div className="relative z-10 pt-[153px] pb-12">
           <div className="container mx-auto px-8 max-w-7xl">
-            <div className="text-center mb-16">
+            <div className="text-center mb-16 animate-fade-in">
               <h1
                 className="text-6xl md:text-7xl font-bold tracking-wide mb-8"
                 style={{
@@ -217,7 +217,7 @@ export default function GalleryPage() {
                 </p>
               </div>
             ) : (
-              <div className="masonry-grid">
+              <div className="masonry-grid animate-slide-up delay-200">
                 {items.map((item) => {
                   const { colSpan, rowSpan } = getGridSpan(item);
                   return (

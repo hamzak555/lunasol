@@ -93,7 +93,7 @@ export default function TermsAndConditionsPage() {
     },
     {
       title: "Contact Information",
-      content: "For questions regarding these Terms and Conditions, please contact us at info@lunasol.com or visit our Contact page."
+      content: "For questions regarding these Terms and Conditions, please contact us at info@lunasol-miami.com or visit our Contact page."
     }
   ];
 

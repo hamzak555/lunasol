@@ -20,6 +20,7 @@ import {
   isSameMonth
 } from "date-fns";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Carousel,
   CarouselContent,
@@ -202,7 +203,7 @@ export default function EventsPage() {
           ) : (
             <div className="flex flex-col lg:flex-row gap-8 h-full">
               {/* Left Side - Calendar (40%) */}
-              <div className="flex flex-col lg:w-[40%]">
+              <div className="flex flex-col lg:w-[40%] animate-slide-in-left">
                 {/* Calendar Header */}
                 <div className="mb-6">
                   <div className="flex items-center justify-between">
@@ -326,7 +327,7 @@ export default function EventsPage() {
               </div>
 
               {/* Right Side - Events Display (60%) */}
-              <div className="flex flex-col lg:w-[60%]">
+              <div className="flex flex-col lg:w-[60%] animate-slide-in-right delay-200">
                 {/* Spacer to align with calendar header */}
                 <div className="mb-6">
                   <div className="flex items-center justify-between opacity-0">
@@ -395,33 +396,81 @@ export default function EventsPage() {
                 ) : (
                   <div className="flex items-center justify-center h-full">
                     <div
-                      className="text-center p-12 rounded-lg"
+                      className="text-center p-12 rounded-lg max-w-lg"
                       style={{
                         backgroundColor: '#2C2C2C',
-                        border: '2px solid #806D4B'
+                        border: '2px solid #806D4B',
+                        minHeight: '450px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center'
                       }}
                     >
-                      <p
-                        className="text-xl mb-4"
-                        style={{
-                          color: '#DCD3B8',
-                          fontFamily: 'var(--font-pangea)'
-                        }}
-                      >
-                        {selectedDate
-                          ? 'No events scheduled for this date'
-                          : 'Select a date to view events'}
-                      </p>
-                      <p
-                        className="text-sm"
-                        style={{
-                          color: '#806D4B',
-                          fontFamily: 'var(--font-pangea)',
-                          opacity: 0.8
-                        }}
-                      >
-                        Click on any date in the calendar
-                      </p>
+                      {selectedDate ? (
+                        <>
+                          <div className="flex justify-center mb-6">
+                            <Image
+                              src="/Images/Sun Icon 2.svg"
+                              alt="Sun Icon"
+                              width={120}
+                              height={120}
+                              style={{ opacity: 0.7 }}
+                            />
+                          </div>
+                          <h3
+                            className="text-2xl font-bold mb-4"
+                            style={{
+                              color: '#806D4B',
+                              fontFamily: 'var(--font-gascogne)'
+                            }}
+                          >
+                            No Public Events This Date
+                          </h3>
+                          <p
+                            className="text-lg mb-6"
+                            style={{
+                              color: '#DCD3B8',
+                              fontFamily: 'var(--font-pangea)'
+                            }}
+                          >
+                            Looking to host your own celebration? Make this date yours with a private booking at Lunasol.
+                          </p>
+                          <Link
+                            href="/private-bookings"
+                            className="inline-block px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] rounded-md"
+                            style={{
+                              backgroundColor: '#806D4B',
+                              color: '#DCD3B8',
+                              fontFamily: 'var(--font-gascogne)',
+                              border: '2px solid #806D4B',
+                            }}
+                          >
+                            BOOK A PRIVATE EVENT
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <p
+                            className="text-xl mb-4"
+                            style={{
+                              color: '#DCD3B8',
+                              fontFamily: 'var(--font-pangea)'
+                            }}
+                          >
+                            Select a date to view events
+                          </p>
+                          <p
+                            className="text-sm"
+                            style={{
+                              color: '#806D4B',
+                              fontFamily: 'var(--font-pangea)',
+                              opacity: 0.8
+                            }}
+                          >
+                            Click on any date in the calendar
+                          </p>
+                        </>
+                      )}
                     </div>
                   </div>
                 )}
