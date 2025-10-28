@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { EventsCarousel } from "@/components/EventsCarousel";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -15,6 +16,7 @@ interface Event {
   time: string;
   image_url: string;
   booking_link?: string;
+  is_ticketed?: boolean;
 }
 
 export default function Home() {
@@ -44,6 +46,7 @@ export default function Home() {
           time: event.time,
           image_url: event.image_url,
           booking_link: event.booking_link,
+          is_ticketed: event.is_ticketed,
           parsedDate: parse(event.date, "MMMM d, yyyy", new Date())
         }))
         .filter(event => {
@@ -304,7 +307,7 @@ export default function Home() {
 
       {/* Bottle Service Section */}
       <div
-        className="relative overflow-hidden"
+        className="relative overflow-visible"
         style={{ backgroundColor: '#1F1F1F' }}
       >
         {/* Grain texture */}
@@ -318,18 +321,33 @@ export default function Home() {
         />
 
         {/* Content */}
-        <div className="relative z-10">
-          <div className="container mx-auto px-8 max-w-7xl pb-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div className="relative z-10 overflow-visible">
+          <div className="container mx-auto px-8 max-w-7xl pb-8 overflow-visible">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center overflow-visible">
               {/* Left Side - Image */}
-              <div className="relative h-[300px] w-full max-w-[500px] rounded-lg overflow-hidden" style={{ border: '2px solid #806D4B' }}>
-                <Image
-                  src="https://placehold.co/600x400/2C2C2C/806D4B?text=Bottle+Service"
-                  alt="Bottle Service"
-                  fill
-                  unoptimized
-                  style={{ objectFit: 'cover' }}
-                />
+              <div className="relative h-[300px] w-full max-w-[500px] rounded-lg overflow-visible">
+                {/* Sun and Moon - Behind Image as Accent */}
+                <div className="absolute -top-28 -left-32 pointer-events-none" style={{ zIndex: 0 }}>
+                  <Image
+                    src="/Images/Sun and Moon.svg"
+                    alt="Sun and Moon"
+                    width={250}
+                    height={250}
+                    style={{
+                      opacity: 0.3,
+                      filter: 'brightness(0) saturate(100%) invert(47%) sepia(17%) saturate(738%) hue-rotate(359deg) brightness(94%) contrast(89%)'
+                    }}
+                  />
+                </div>
+                {/* Bottle Service Image */}
+                <div className="relative h-full w-full" style={{ border: '2px solid #806D4B', borderRadius: '0.5rem', zIndex: 1 }}>
+                  <Image
+                    src="/Images/Bottle Service.jpg"
+                    alt="Bottle Service"
+                    fill
+                    style={{ objectFit: 'cover', borderRadius: '0.5rem' }}
+                  />
+                </div>
               </div>
 
               {/* Right Side - Text Content */}
@@ -354,7 +372,7 @@ export default function Home() {
                   Reserve your private table and experience Wynwood's most sought-after nightlife destination. Premium bottle service, dedicated VIP hosting, and the energy of Miami's best nights.
                 </p>
                 <button
-                  className="px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C]"
+                  className="px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] rounded-md"
                   style={{
                     backgroundColor: '#806D4B',
                     color: '#DCD3B8',
@@ -411,7 +429,7 @@ export default function Home() {
                   Skip the line and step into the night. Join our exclusive guest list for priority entry to Lunasol's most unforgettable evenings under the stars.
                 </p>
                 <button
-                  className="px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C]"
+                  className="px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] rounded-md"
                   style={{
                     backgroundColor: '#806D4B',
                     color: '#DCD3B8',
@@ -424,14 +442,106 @@ export default function Home() {
               </div>
 
               {/* Right Side - Image */}
-              <div className="relative h-[300px] w-full max-w-[500px] ml-auto rounded-lg overflow-hidden" style={{ border: '2px solid #806D4B' }}>
+              <div className="relative h-[300px] w-full max-w-[500px] ml-auto rounded-lg overflow-visible" style={{ border: '2px solid #806D4B' }}>
+                <div className="absolute inset-0 rounded-lg overflow-hidden">
+                  <Image
+                    src="/Images/Guest List.jpg"
+                    alt="Guest List"
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                {/* Split Moon Overlay - Middle Bottom */}
+                <div className="absolute bottom-8 left-1/2 pointer-events-none" style={{ transform: 'translateX(-50%)', zIndex: 10 }}>
+                  <Image
+                    src="/Images/Split Moon.svg"
+                    alt="Split Moon"
+                    width={120}
+                    height={120}
+                    style={{
+                      filter: 'brightness(0) saturate(100%) invert(47%) sepia(17%) saturate(738%) hue-rotate(359deg) brightness(94%) contrast(89%)'
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Call to Action - View All Events */}
+      <div
+        className="relative overflow-visible"
+        style={{ backgroundColor: '#1F1F1F' }}
+      >
+        {/* Grain texture */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E")`,
+            opacity: 0.6,
+            mixBlendMode: 'overlay'
+          }}
+        />
+
+        {/* Content */}
+        <div className="relative z-10">
+          <div className="container mx-auto px-8 max-w-7xl py-20">
+            {/* Outlined CTA Box */}
+            <div
+              className="relative rounded-lg overflow-hidden"
+              style={{
+                border: '3px solid #806D4B',
+                backgroundColor: 'rgba(31, 31, 31, 0.5)'
+              }}
+            >
+              {/* Splat Background Accent */}
+              <div className="absolute top-1/2 -right-64 pointer-events-none" style={{ transform: 'translateY(-50%)', zIndex: 0 }}>
                 <Image
-                  src="https://placehold.co/600x400/2C2C2C/806D4B?text=Guest+List"
-                  alt="Guest List"
-                  fill
-                  unoptimized
-                  style={{ objectFit: 'cover' }}
+                  src="/Images/Splat.svg"
+                  alt="Splat"
+                  width={600}
+                  height={600}
+                  style={{
+                    opacity: 0.3,
+                    filter: 'brightness(0) saturate(100%) invert(47%) sepia(17%) saturate(738%) hue-rotate(359deg) brightness(94%) contrast(89%)'
+                  }}
                 />
+              </div>
+
+              {/* Content */}
+              <div className="relative z-10 py-16 px-12 text-center">
+                <h2
+                  className="text-5xl font-bold tracking-wide mb-6"
+                  style={{
+                    color: '#806D4B',
+                    fontFamily: 'var(--font-gascogne)',
+                    fontWeight: '900'
+                  }}
+                >
+                  DISCOVER WHAT'S NEXT
+                </h2>
+                <p
+                  className="text-xl leading-relaxed mb-8 max-w-2xl mx-auto"
+                  style={{
+                    color: '#DCD3B8',
+                    fontFamily: 'var(--font-pangea)'
+                  }}
+                >
+                  From live performances to exclusive nights under the stars, explore our full calendar of upcoming events and experiences.
+                </p>
+                <Link
+                  href="/events"
+                  className="inline-block px-12 py-4 text-xl font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] rounded-md"
+                  style={{
+                    backgroundColor: '#806D4B',
+                    color: '#DCD3B8',
+                    fontFamily: 'var(--font-gascogne)',
+                    border: '2px solid #806D4B'
+                  }}
+                >
+                  VIEW ALL EVENTS
+                </Link>
               </div>
             </div>
           </div>

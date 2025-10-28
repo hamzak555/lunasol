@@ -16,6 +16,7 @@ interface Event {
   time: string;
   image_url: string;
   booking_link?: string;
+  is_ticketed?: boolean;
 }
 
 interface EventsCarouselProps {
@@ -41,6 +42,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
                 time={event.time}
                 image={event.image_url}
                 bookingLink={event.booking_link}
+                isTicketed={event.is_ticketed}
                 variant="clickable"
               />
             </CarouselItem>

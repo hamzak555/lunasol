@@ -27,6 +27,9 @@ export function Header() {
               width={160}
               height={20}
               priority
+              style={{
+                filter: 'brightness(0) saturate(100%) invert(47%) sepia(17%) saturate(738%) hue-rotate(359deg) brightness(94%) contrast(89%)'
+              }}
             />
           </Link>
         </div>

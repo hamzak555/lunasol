@@ -4,6 +4,17 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { X } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { NotificationDialog } from "@/components/ui/notification-dialog";
 
 interface User {
   id: string;
@@ -25,6 +36,19 @@ export default function UsersPage() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<"admin" | "standard">("standard");
   const [submitting, setSubmitting] = useState(false);
+
+  // Modal state
+  const [userToDelete, setUserToDelete] = useState<{ id: string; email: string } | null>(null);
+  const [notification, setNotification] = useState<{
+    open: boolean;
+    title: string;
+    description: string;
+    type: 'success' | 'error' | 'info';
+  }>({ open: false, title: '', description: '', type: 'info' });
+
+  const showNotification = (title: string, description: string, type: 'success' | 'error' | 'info' = 'info') => {
+    setNotification({ open: true, title, description, type });
+  };
 
   useEffect(() => {
     getCurrentUser();
@@ -67,13 +91,13 @@ export default function UsersPage() {
 
     try {
       if (!email) {
-        alert("Please enter an email address");
+        showNotification('Missing Email', 'Please enter an email address', 'error');
         setSubmitting(false);
         return;
       }
 
       if (!editingUser && !password) {
-        alert("Please enter a password");
+        showNotification('Missing Password', 'Please enter a password', 'error');
         setSubmitting(false);
         return;
       }
@@ -101,7 +125,7 @@ export default function UsersPage() {
         }
 
         console.log("User updated:", data);
-        alert("User updated successfully!");
+        showNotification('User Updated', 'User updated successfully!', 'success');
       } else {
         // Create new user
         console.log("Creating user:", email);
@@ -125,7 +149,7 @@ export default function UsersPage() {
         }
 
         console.log("User created:", data);
-        alert("User created successfully!");
+        showNotification('User Created', 'User created successfully!', 'success');
       }
 
       // Reset form and refresh users
@@ -139,7 +163,7 @@ export default function UsersPage() {
       console.error("Error saving user:", error);
       const errorMessage =
         error?.message || "Failed to save user. Please try again.";
-      alert(`Error: ${errorMessage}`);
+      showNotification('Error', `Error: ${errorMessage}`, 'error');
     } finally {
       setSubmitting(false);
     }
@@ -153,16 +177,15 @@ export default function UsersPage() {
     setShowAddModal(true);
   };
 
-  const handleDelete = async (userId: string, userEmail: string) => {
-    if (
-      !confirm(
-        `Are you sure you want to delete user ${userEmail}? This action cannot be undone.`
-      )
-    )
-      return;
+  const handleDelete = (userId: string, userEmail: string) => {
+    setUserToDelete({ id: userId, email: userEmail });
+  };
+
+  const confirmDelete = async () => {
+    if (!userToDelete) return;
 
     try {
-      const response = await fetch(`/api/users/${userId}`, {
+      const response = await fetch(`/api/users/${userToDelete.id}`, {
         method: 'DELETE',
       });
 
@@ -173,10 +196,12 @@ export default function UsersPage() {
       }
 
       fetchUsers();
-      alert("User deleted successfully!");
+      showNotification('User Deleted', 'User deleted successfully!', 'success');
     } catch (error: any) {
       console.error("Error deleting user:", error);
-      alert(`Error: ${error?.message || "Failed to delete user"}`);
+      showNotification('Delete Error', `Error: ${error?.message || "Failed to delete user"}`, 'error');
+    } finally {
+      setUserToDelete(null);
     }
   };
 
@@ -204,7 +229,7 @@ export default function UsersPage() {
           </h2>
           <button
             onClick={() => setShowAddModal(true)}
-            className="px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C]"
+            className="px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] rounded-md"
             style={{
               backgroundColor: "#806D4B",
               color: "#DCD3B8",
@@ -330,7 +355,7 @@ export default function UsersPage() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEdit(u)}
-                          className="px-4 py-2 text-sm transition-all hover:bg-[#806D4B]"
+                          className="px-4 py-2 text-sm transition-all hover:bg-[#806D4B] rounded-md"
                           style={{
                             color: "#DCD3B8",
                             fontFamily: "var(--font-pangea)",
@@ -342,11 +367,12 @@ export default function UsersPage() {
                         <button
                           onClick={() => handleDelete(u.id, u.email)}
                           disabled={u.id === user?.id}
-                          className="px-4 py-2 text-sm transition-all hover:bg-red-900 disabled:opacity-30 disabled:cursor-not-allowed"
+                          className="px-4 py-2 text-sm transition-all hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed rounded-md"
                           style={{
+                            backgroundColor: "#dc2626",
                             color: "#DCD3B8",
                             fontFamily: "var(--font-pangea)",
-                            border: "1px solid #806D4B",
+                            border: "1px solid #dc2626",
                           }}
                         >
                           Delete
@@ -464,14 +490,14 @@ export default function UsersPage() {
                 >
                   User Role
                 </label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="flex gap-4">
                   <button
                     type="button"
                     onClick={() => setRole("standard")}
-                    className="px-4 py-3 rounded transition-all"
+                    className="flex-1 px-4 py-3 rounded-md transition-all"
                     style={{
                       backgroundColor: role === "standard" ? "#806D4B" : "#2C2C2C",
-                      border: role === "standard" ? "2px solid #806D4B" : "1px solid #806D4B",
+                      border: `2px solid ${role === "standard" ? "#DCD3B8" : "#806D4B"}`,
                       color: "#DCD3B8",
                       fontFamily: "var(--font-pangea)",
                     }}
@@ -481,10 +507,10 @@ export default function UsersPage() {
                   <button
                     type="button"
                     onClick={() => setRole("admin")}
-                    className="px-4 py-3 rounded transition-all"
+                    className="flex-1 px-4 py-3 rounded-md transition-all"
                     style={{
                       backgroundColor: role === "admin" ? "#806D4B" : "#2C2C2C",
-                      border: role === "admin" ? "2px solid #806D4B" : "1px solid #806D4B",
+                      border: `2px solid ${role === "admin" ? "#DCD3B8" : "#806D4B"}`,
                       color: "#DCD3B8",
                       fontFamily: "var(--font-pangea)",
                     }}
@@ -499,7 +525,7 @@ export default function UsersPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] disabled:opacity-50"
+                  className="w-full px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] disabled:opacity-50 rounded-md"
                   style={{
                     backgroundColor: "#806D4B",
                     color: "#DCD3B8",
@@ -516,6 +542,70 @@ export default function UsersPage() {
           </div>
         </div>
       )}
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={!!userToDelete} onOpenChange={(open) => !open && setUserToDelete(null)}>
+        <AlertDialogContent
+          style={{
+            backgroundColor: "#0F0F0F",
+            border: "2px solid #806D4B",
+          }}
+        >
+          <AlertDialogHeader>
+            <AlertDialogTitle
+              style={{
+                color: "#dc2626",
+                fontFamily: "var(--font-gascogne)",
+              }}
+            >
+              Delete User
+            </AlertDialogTitle>
+            <AlertDialogDescription
+              style={{
+                color: "#DCD3B8",
+                fontFamily: "var(--font-pangea)",
+              }}
+            >
+              Are you sure you want to delete user {userToDelete?.email}? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel
+              onClick={() => setUserToDelete(null)}
+              className="px-6 py-2 text-sm font-medium tracking-wide transition-all hover:opacity-80"
+              style={{
+                backgroundColor: "transparent",
+                color: "#DCD3B8",
+                fontFamily: "var(--font-pangea)",
+                border: "1px solid #806D4B",
+              }}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="px-6 py-2 text-sm font-medium tracking-wide transition-all hover:opacity-80"
+              style={{
+                backgroundColor: "#dc2626",
+                color: "#DCD3B8",
+                fontFamily: "var(--font-pangea)",
+                border: "1px solid #dc2626",
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Notification Dialog */}
+      <NotificationDialog
+        open={notification.open}
+        onOpenChange={(open) => setNotification({ ...notification, open })}
+        title={notification.title}
+        description={notification.description}
+        type={notification.type}
+      />
     </DashboardLayout>
   );
 }

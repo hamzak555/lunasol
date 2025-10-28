@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { NotificationDialog } from "@/components/ui/notification-dialog";
 
 interface Event {
   id: string;
@@ -35,6 +36,7 @@ interface Event {
   time: string;
   image_url: string;
   booking_link?: string;
+  is_ticketed: boolean;
   created_at: string;
 }
 
@@ -46,12 +48,24 @@ export default function DashboardPage() {
   const [sortBy, setSortBy] = useState<"date" | "title" | "created">("date");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [datePickerOpen, setDatePickerOpen] = useState(false);
+  const [selectedEventIds, setSelectedEventIds] = useState<Set<string>>(new Set());
+  const [notification, setNotification] = useState<{
+    open: boolean;
+    title: string;
+    description: string;
+    type: 'success' | 'error' | 'info';
+  }>({ open: false, title: '', description: '', type: 'info' });
   const supabase = createClient();
+
+  const showNotification = (title: string, description: string, type: 'success' | 'error' | 'info' = 'info') => {
+    setNotification({ open: true, title, description, type });
+  };
 
   // Form state
   const [title, setTitle] = useState("");
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [bookingLink, setBookingLink] = useState("");
+  const [isTicketed, setIsTicketed] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -128,7 +142,7 @@ export default function DashboardPage() {
       reader.readAsDataURL(compressedFile);
     } catch (error) {
       console.error('Error compressing image:', error);
-      alert('Error processing image. Please try a different image.');
+      showNotification('Image Processing Error', 'Error processing image. Please try a different image.', 'error');
       setImageUploading(false);
     }
   };
@@ -158,7 +172,7 @@ export default function DashboardPage() {
     if (file && file.type.startsWith('image/')) {
       await processImageFile(file);
     } else {
-      alert('Please drop an image file');
+      showNotification('Invalid File', 'Please drop an image file', 'error');
     }
   };
 
@@ -201,7 +215,7 @@ export default function DashboardPage() {
     try {
       // Validate required fields
       if (!title || !date) {
-        alert("Please fill in all required fields");
+        showNotification('Missing Fields', 'Please fill in all required fields', 'error');
         setSubmitting(false);
         return;
       }
@@ -210,7 +224,7 @@ export default function DashboardPage() {
 
       // Check if we need an image
       if (!editingEvent && !imageFile) {
-        alert("Please upload an image for the event");
+        showNotification('Missing Image', 'Please upload an image for the event', 'error');
         setSubmitting(false);
         return;
       }
@@ -242,6 +256,7 @@ export default function DashboardPage() {
         time: "", // Keep empty for backwards compatibility
         image_url: imageUrl,
         booking_link: processedBookingLink || null,
+        is_ticketed: isTicketed,
       };
 
       console.log("Saving event:", eventData);
@@ -277,6 +292,7 @@ export default function DashboardPage() {
       setTitle("");
       setDate(undefined);
       setBookingLink("");
+      setIsTicketed(false);
       setImageFile(null);
       setImagePreview("");
       setImageUploading(false);
@@ -287,7 +303,7 @@ export default function DashboardPage() {
     } catch (error: any) {
       console.error("Error saving event:", error);
       const errorMessage = error?.message || "Failed to save event. Please try again.";
-      alert(`Error: ${errorMessage}`);
+      showNotification('Save Error', `Error: ${errorMessage}`, 'error');
     } finally {
       setSubmitting(false);
     }
@@ -304,6 +320,7 @@ export default function DashboardPage() {
       setDate(undefined);
     }
     setBookingLink(event.booking_link || "");
+    setIsTicketed(event.is_ticketed || false);
     setImagePreview(event.image_url);
     setShowAddModal(true);
   };
@@ -315,11 +332,55 @@ export default function DashboardPage() {
 
     if (!error) {
       fetchEvents();
+      showNotification('Event Deleted', 'Event deleted successfully', 'success');
     } else {
-      alert(`Error: ${error.message || "Failed to delete event"}`);
+      showNotification('Delete Error', `Error: ${error.message || "Failed to delete event"}`, 'error');
     }
 
     setEventToDelete(null);
+  };
+
+  const toggleEventSelection = (eventId: string) => {
+    const newSelected = new Set(selectedEventIds);
+    if (newSelected.has(eventId)) {
+      newSelected.delete(eventId);
+    } else {
+      newSelected.add(eventId);
+    }
+    setSelectedEventIds(newSelected);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedEventIds.size === events.length) {
+      setSelectedEventIds(new Set());
+    } else {
+      setSelectedEventIds(new Set(events.map(e => e.id)));
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedEventIds.size === 0) return;
+
+    if (!confirm(`Are you sure you want to delete ${selectedEventIds.size} event(s)? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from("events")
+        .delete()
+        .in("id", Array.from(selectedEventIds));
+
+      if (!error) {
+        fetchEvents();
+        setSelectedEventIds(new Set());
+        showNotification('Events Deleted', `Successfully deleted ${selectedEventIds.size} event(s)`, 'success');
+      } else {
+        showNotification('Delete Error', `Error: ${error.message || "Failed to delete events"}`, 'error');
+      }
+    } catch (error: any) {
+      showNotification('Delete Error', `Error: ${error?.message || "Failed to delete events"}`, 'error');
+    }
   };
 
   const closeModal = () => {
@@ -328,6 +389,7 @@ export default function DashboardPage() {
     setTitle("");
     setDate(undefined);
     setBookingLink("");
+    setIsTicketed(false);
     setImageFile(null);
     setImagePreview("");
     setImageUploading(false);
@@ -347,19 +409,46 @@ export default function DashboardPage() {
             }}
           >
             Events
+            {selectedEventIds.size > 0 && (
+              <span
+                className="ml-3 text-base font-normal"
+                style={{
+                  color: "#DCD3B8",
+                  fontFamily: "var(--font-pangea)",
+                }}
+              >
+                ({selectedEventIds.size} selected)
+              </span>
+            )}
           </h2>
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C]"
-            style={{
-              backgroundColor: "#806D4B",
-              color: "#DCD3B8",
-              fontFamily: "var(--font-gascogne)",
-              border: "2px solid #806D4B",
-            }}
-          >
-            Add Event
-          </button>
+          <div className="flex gap-3">
+            {selectedEventIds.size > 0 && (
+              <button
+                onClick={handleBulkDelete}
+                className="px-6 py-3 text-lg font-bold tracking-wide transition-all hover:opacity-80 rounded-md"
+                style={{
+                  backgroundColor: "#dc2626",
+                  color: "#DCD3B8",
+                  fontFamily: "var(--font-gascogne)",
+                  border: "2px solid #dc2626",
+                }}
+              >
+                Delete Selected ({selectedEventIds.size})
+              </button>
+            )}
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] rounded-md"
+              style={{
+                backgroundColor: "#806D4B",
+                color: "#DCD3B8",
+                fontFamily: "var(--font-gascogne)",
+                border: "2px solid #806D4B",
+              }}
+            >
+              Add Event
+            </button>
+          </div>
         </div>
 
         {/* Events Table */}
@@ -373,6 +462,39 @@ export default function DashboardPage() {
           <table className="w-full">
             <thead style={{ backgroundColor: "#2C2C2C" }}>
               <tr>
+                <th
+                  className="text-left px-4 py-4"
+                  style={{
+                    color: "#806D4B",
+                    fontFamily: "var(--font-gascogne)",
+                  }}
+                >
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={selectedEventIds.size === events.length && events.length > 0}
+                      onChange={toggleSelectAll}
+                      className="appearance-none w-5 h-5 rounded border-2 cursor-pointer relative transition-all"
+                      style={{
+                        borderColor: "#806D4B",
+                        backgroundColor: selectedEventIds.size === events.length && events.length > 0 ? "#806D4B" : "transparent"
+                      }}
+                    />
+                    {selectedEventIds.size === events.length && events.length > 0 && (
+                      <svg
+                        className="absolute w-5 h-5 pointer-events-none"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#DCD3B8"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    )}
+                  </label>
+                </th>
                 <th
                   className="text-left px-6 py-4 font-bold"
                   style={{
@@ -436,7 +558,7 @@ export default function DashboardPage() {
               {sortedEvents.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={5}
+                    colSpan={6}
                     className="text-center px-6 py-8"
                     style={{
                       color: "#DCD3B8",
@@ -453,6 +575,33 @@ export default function DashboardPage() {
                     className="border-t"
                     style={{ borderTopColor: "#806D4B" }}
                   >
+                    <td className="px-4 py-4">
+                      <label className="flex items-center cursor-pointer relative">
+                        <input
+                          type="checkbox"
+                          checked={selectedEventIds.has(event.id)}
+                          onChange={() => toggleEventSelection(event.id)}
+                          className="appearance-none w-5 h-5 rounded border-2 cursor-pointer transition-all"
+                          style={{
+                            borderColor: "#806D4B",
+                            backgroundColor: selectedEventIds.has(event.id) ? "#806D4B" : "transparent"
+                          }}
+                        />
+                        {selectedEventIds.has(event.id) && (
+                          <svg
+                            className="absolute w-5 h-5 pointer-events-none"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#DCD3B8"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                        )}
+                      </label>
+                    </td>
                     <td className="px-6 py-4">
                       <div className="relative w-20 h-20">
                         {event.image_url ? (
@@ -531,7 +680,7 @@ export default function DashboardPage() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEdit(event)}
-                          className="px-4 py-2 text-sm transition-all hover:bg-[#806D4B]"
+                          className="px-4 py-2 text-sm transition-all hover:bg-[#806D4B] rounded-md"
                           style={{
                             color: "#DCD3B8",
                             fontFamily: "var(--font-pangea)",
@@ -542,11 +691,12 @@ export default function DashboardPage() {
                         </button>
                         <button
                           onClick={() => setEventToDelete(event)}
-                          className="px-4 py-2 text-sm transition-all hover:bg-red-900"
+                          className="px-4 py-2 text-sm transition-all hover:opacity-80 rounded-md"
                           style={{
+                            backgroundColor: "#dc2626",
                             color: "#DCD3B8",
                             fontFamily: "var(--font-pangea)",
-                            border: "1px solid #806D4B",
+                            border: "1px solid #dc2626",
                           }}
                         >
                           Delete
@@ -569,7 +719,7 @@ export default function DashboardPage() {
           onClick={closeModal}
         >
           <div
-            className="w-full max-w-md mx-4 p-7 rounded-lg relative"
+            className="w-full max-w-5xl mx-4 p-7 rounded-lg relative"
             style={{
               backgroundColor: "#0F0F0F",
               border: "2px solid #806D4B",
@@ -600,7 +750,8 @@ export default function DashboardPage() {
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Left Column - Form Fields */}
-                <div className="space-y-6">
+                <div className="flex flex-col">
+                  <div className="space-y-6">
                   {/* Title */}
                   <div>
                     <label
@@ -610,7 +761,7 @@ export default function DashboardPage() {
                         fontFamily: "var(--font-pangea)",
                       }}
                     >
-                      Event Title
+                      Event Title *
                     </label>
                     <input
                       type="text"
@@ -636,7 +787,7 @@ export default function DashboardPage() {
                         fontFamily: "var(--font-pangea)",
                       }}
                     >
-                      Date
+                      Date *
                     </label>
                     <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
                       <PopoverTrigger asChild>
@@ -686,7 +837,7 @@ export default function DashboardPage() {
                     </Popover>
                   </div>
 
-                  {/* Booking Link */}
+                  {/* Event Type Selector */}
                   <div>
                     <label
                       className="block text-sm font-medium mb-2"
@@ -695,7 +846,48 @@ export default function DashboardPage() {
                         fontFamily: "var(--font-pangea)",
                       }}
                     >
-                      Booking Link (Optional)
+                      Event Type
+                    </label>
+                    <div className="flex gap-4">
+                      <button
+                        type="button"
+                        onClick={() => setIsTicketed(false)}
+                        className="flex-1 px-4 py-3 rounded-md transition-all"
+                        style={{
+                          backgroundColor: !isTicketed ? "#806D4B" : "#2C2C2C",
+                          border: `2px solid ${!isTicketed ? "#DCD3B8" : "#806D4B"}`,
+                          color: "#DCD3B8",
+                          fontFamily: "var(--font-pangea)",
+                        }}
+                      >
+                        Regular
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setIsTicketed(true)}
+                        className="flex-1 px-4 py-3 rounded-md transition-all"
+                        style={{
+                          backgroundColor: isTicketed ? "#806D4B" : "#2C2C2C",
+                          border: `2px solid ${isTicketed ? "#DCD3B8" : "#806D4B"}`,
+                          color: "#DCD3B8",
+                          fontFamily: "var(--font-pangea)",
+                        }}
+                      >
+                        Ticketed
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Booking/Ticketing Link */}
+                  <div>
+                    <label
+                      className="block text-sm font-medium mb-2"
+                      style={{
+                        color: "#DCD3B8",
+                        fontFamily: "var(--font-pangea)",
+                      }}
+                    >
+                      Booking/Ticketing Link
                     </label>
                     <input
                       type="text"
@@ -712,12 +904,12 @@ export default function DashboardPage() {
                     />
                   </div>
 
-                  {/* Buttons */}
-                  <div className="pt-4">
+                  {/* Create Button */}
+                  <div className="mt-6">
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="w-full px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] disabled:opacity-50"
+                      className="w-full px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] disabled:opacity-50 rounded-md"
                       style={{
                         backgroundColor: "#806D4B",
                         color: "#DCD3B8",
@@ -732,10 +924,11 @@ export default function DashboardPage() {
                         : "Create"}
                     </button>
                   </div>
+                  </div>
                 </div>
 
                 {/* Right Column - Image Upload/Preview (9:16 aspect ratio) */}
-                <div className="flex flex-col">
+                <div className="flex flex-col justify-end">
                   <label
                     className="block text-sm font-medium mb-2 text-center"
                     style={{
@@ -743,7 +936,7 @@ export default function DashboardPage() {
                       fontFamily: "var(--font-pangea)",
                     }}
                   >
-                    Event Image
+                    Event Image *
                   </label>
 
                   {/* Hidden file input */}
@@ -755,12 +948,13 @@ export default function DashboardPage() {
                     className="hidden"
                   />
 
-                  <div className="flex items-start justify-center">
+                  <div className="flex items-end justify-center">
                     <div
                       className="relative rounded-lg overflow-hidden cursor-pointer transition-all"
                       style={{
-                        width: "196px",
-                        height: "350px",
+                        width: "100%",
+                        maxWidth: "247px",
+                        aspectRatio: "9/16",
                         backgroundColor: "#2C2C2C",
                         border: isDragging ? "2px dashed #DCD3B8" : "2px solid #806D4B",
                       }}
@@ -804,9 +998,9 @@ export default function DashboardPage() {
                               e.stopPropagation();
                               handleRemoveImage();
                             }}
-                            className="absolute top-2 right-2 p-2 rounded-full transition-all hover:bg-red-900"
+                            className="absolute top-2 right-2 p-2 rounded-full transition-all hover:opacity-80"
                             style={{
-                              backgroundColor: "rgba(0, 0, 0, 0.6)",
+                              backgroundColor: "#dc2626",
                               color: "#DCD3B8",
                             }}
                           >
@@ -867,7 +1061,7 @@ export default function DashboardPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel
-              className="px-6 py-2 text-sm font-medium tracking-wide transition-all hover:bg-[#806D4B]"
+              className="px-6 py-2 text-sm font-medium tracking-wide transition-all hover:bg-[#806D4B] rounded-md"
               style={{
                 color: "#DCD3B8",
                 fontFamily: "var(--font-pangea)",
@@ -879,12 +1073,12 @@ export default function DashboardPage() {
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="px-6 py-2 text-sm font-medium tracking-wide transition-all hover:bg-red-800"
+              className="px-6 py-2 text-sm font-medium tracking-wide transition-all hover:opacity-80 rounded-md"
               style={{
-                backgroundColor: "#991b1b",
+                backgroundColor: "#dc2626",
                 color: "#DCD3B8",
                 fontFamily: "var(--font-pangea)",
-                border: "1px solid #991b1b",
+                border: "1px solid #dc2626",
               }}
             >
               Delete
@@ -892,6 +1086,15 @@ export default function DashboardPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Notification Dialog */}
+      <NotificationDialog
+        open={notification.open}
+        onOpenChange={(open) => setNotification({ ...notification, open })}
+        title={notification.title}
+        description={notification.description}
+        type={notification.type}
+      />
     </DashboardLayout>
   );
 }
