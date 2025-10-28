@@ -6,22 +6,22 @@ import { LockScreen } from "@/components/LockScreen";
 const gascogne = localFont({
   src: [
     {
-      path: "../../public/fonts/Gascogne Serial/Gascogne Serial.otf",
+      path: "../../public/Fonts/Gascogne Serial/Gascogne Serial.otf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Gascogne Serial/Gascogne Serial Medium.otf",
+      path: "../../public/Fonts/Gascogne Serial/Gascogne Serial Medium.otf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Gascogne Serial/Gascogne Serial Bold.otf",
+      path: "../../public/Fonts/Gascogne Serial/Gascogne Serial Bold.otf",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Gascogne Serial/Gascogne Serial Heavy.otf",
+      path: "../../public/Fonts/Gascogne Serial/Gascogne Serial Heavy.otf",
       weight: "900",
       style: "normal",
     },
@@ -32,27 +32,27 @@ const gascogne = localFont({
 const pangea = localFont({
   src: [
     {
-      path: "../../public/fonts/Pangea/Pangea-Light.otf",
+      path: "../../public/Fonts/Pangea/Pangea-Light.otf",
       weight: "300",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Pangea/Pangea-Regular.otf",
+      path: "../../public/Fonts/Pangea/Pangea-Regular.otf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Pangea/Pangea-Medium.otf",
+      path: "../../public/Fonts/Pangea/Pangea-Medium.otf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Pangea/Pangea-SemiBold.otf",
+      path: "../../public/Fonts/Pangea/Pangea-SemiBold.otf",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../../public/fonts/Pangea/Pangea-Bold.otf",
+      path: "../../public/Fonts/Pangea/Pangea-Bold.otf",
       weight: "700",
       style: "normal",
     },
