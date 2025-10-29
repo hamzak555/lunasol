@@ -148,9 +148,9 @@ export default function ContactPage() {
 
           <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12">
             {/* Contact Information */}
-            <div className="order-1 lg:order-none">
+            <div className="space-y-8 animate-slide-in-left delay-200 order-2 lg:order-none">
               <div
-                className="p-6 rounded-lg animate-slide-in-left delay-200"
+                className="p-6 rounded-lg"
                 style={{
                   backgroundColor: '#2C2C2C',
                   border: '2px solid #806D4B'
@@ -273,10 +273,60 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
+
+              <div
+                className="p-6 rounded-lg"
+                style={{
+                  backgroundColor: '#2C2C2C',
+                  border: '2px solid #806D4B'
+                }}
+              >
+                <h2
+                  className="text-2xl font-bold mb-4"
+                  style={{
+                    color: '#806D4B',
+                    fontFamily: 'var(--font-gascogne)'
+                  }}
+                >
+                  Quick Links
+                </h2>
+                <div className="space-y-3">
+                  <a
+                    href="/private-bookings"
+                    className="block transition-colors hover:text-[#806D4B] text-sm md:text-base"
+                    style={{
+                      color: '#DCD3B8',
+                      fontFamily: 'var(--font-pangea)'
+                    }}
+                  >
+                    Private Bookings →
+                  </a>
+                  <a
+                    href="/events"
+                    className="block transition-colors hover:text-[#806D4B] text-sm md:text-base"
+                    style={{
+                      color: '#DCD3B8',
+                      fontFamily: 'var(--font-pangea)'
+                    }}
+                  >
+                    Upcoming Events →
+                  </a>
+                  <a
+                    href="/faq"
+                    className="block transition-colors hover:text-[#806D4B] text-sm md:text-base"
+                    style={{
+                      color: '#DCD3B8',
+                      fontFamily: 'var(--font-pangea)'
+                    }}
+                  >
+                    FAQ →
+                  </a>
+                </div>
+              </div>
             </div>
 
             {/* Contact Form */}
-            <div className="order-2 lg:order-none">
+            <div className="order-1 lg:order-none">
               <div
                 className="p-8 rounded-lg animate-slide-in-right delay-400"
                 style={{
@@ -439,59 +489,6 @@ export default function ContactPage() {
                   {submitting ? "SENDING..." : "SEND MESSAGE"}
                 </button>
               </form>
-              </div>
-            </div>
-
-            {/* Quick Links */}
-            <div className="order-3 lg:order-none lg:col-start-1 lg:row-start-2">
-              <div
-                className="p-6 rounded-lg"
-                style={{
-                  backgroundColor: '#2C2C2C',
-                  border: '2px solid #806D4B'
-                }}
-              >
-                <h2
-                  className="text-2xl font-bold mb-4"
-                  style={{
-                    color: '#806D4B',
-                    fontFamily: 'var(--font-gascogne)'
-                  }}
-                >
-                  Quick Links
-                </h2>
-                <div className="space-y-3">
-                  <a
-                    href="/private-bookings"
-                    className="block transition-colors hover:text-[#806D4B] text-sm md:text-base"
-                    style={{
-                      color: '#DCD3B8',
-                      fontFamily: 'var(--font-pangea)'
-                    }}
-                  >
-                    Private Bookings →
-                  </a>
-                  <a
-                    href="/events"
-                    className="block transition-colors hover:text-[#806D4B] text-sm md:text-base"
-                    style={{
-                      color: '#DCD3B8',
-                      fontFamily: 'var(--font-pangea)'
-                    }}
-                  >
-                    Upcoming Events →
-                  </a>
-                  <a
-                    href="/faq"
-                    className="block transition-colors hover:text-[#806D4B] text-sm md:text-base"
-                    style={{
-                      color: '#DCD3B8',
-                      fontFamily: 'var(--font-pangea)'
-                    }}
-                  >
-                    FAQ →
-                  </a>
-                </div>
               </div>
             </div>
           </div>
