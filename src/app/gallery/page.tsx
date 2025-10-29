@@ -165,7 +165,7 @@ export default function GalleryPage() {
 
         {/* Spotted Pattern - Right side */}
         <div
-          className="absolute top-1/4 -right-32 pointer-events-none"
+          className="absolute top-0 md:top-1/4 -right-32 pointer-events-none"
           style={{ width: '800px', height: '800px', zIndex: 2, opacity: 0.2, transform: 'translateY(-50%)' }}
         >
           <Image
@@ -177,11 +177,11 @@ export default function GalleryPage() {
         </div>
 
         {/* Hero Section */}
-        <div className="relative z-10 pt-[153px] pb-12">
-          <div className="container mx-auto px-8 max-w-7xl">
+        <div className="relative z-10 pt-[121px] pb-8 md:pb-12 lg:pb-16">
+          <div className="container mx-auto px-4 md:px-8 max-w-7xl">
             <div className="text-center mb-16 animate-fade-in">
               <h1
-                className="text-6xl md:text-7xl font-bold tracking-wide mb-8"
+                className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-wide mb-8"
                 style={{
                   color: '#806D4B',
                   fontFamily: 'var(--font-gascogne)',
@@ -207,7 +207,7 @@ export default function GalleryPage() {
             {items.length === 0 ? (
               <div className="text-center py-20">
                 <p
-                  className="text-lg"
+                  className="text-sm md:text-lg"
                   style={{
                     color: '#806D4B',
                     fontFamily: 'var(--font-pangea)'

@@ -99,7 +99,7 @@ export default function FamilyPage() {
 
       {/* Family Page Content */}
       <div
-        className="relative min-h-screen pt-40 pb-20 -mt-[73px]"
+        className="relative min-h-screen pt-[121px] pb-8 md:pb-12 lg:pb-16 -mt-[73px]"
         style={{ backgroundColor: '#1F1F1F' }}
       >
         {/* Grain texture overlay */}
@@ -125,11 +125,11 @@ export default function FamilyPage() {
           />
         </div>
 
-        <div className="relative z-10 container mx-auto px-8 max-w-7xl">
+        <div className="relative z-10 container mx-auto px-4 md:px-8 max-w-7xl">
           {/* Page Title */}
           <div className="text-center mb-12 animate-fade-in">
             <h1
-              className="text-5xl font-bold tracking-wide mb-8"
+              className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-wide mb-8"
               style={{
                 color: '#806D4B',
                 fontFamily: 'var(--font-gascogne)',

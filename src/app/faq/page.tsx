@@ -102,7 +102,7 @@ export default function FAQPage() {
 
       {/* FAQ Content */}
       <div
-        className="relative min-h-screen pt-40 pb-16 -mt-[73px]"
+        className="relative min-h-screen pt-[121px] pb-8 md:pb-12 lg:pb-16 -mt-[73px]"
         style={{ backgroundColor: '#1F1F1F' }}
       >
         {/* Grain texture overlay */}
@@ -115,11 +115,11 @@ export default function FAQPage() {
           }}
         />
 
-        <div className="relative z-10 container mx-auto px-8 max-w-4xl">
+        <div className="relative z-10 container mx-auto px-4 md:px-8 max-w-4xl">
           {/* Page Title */}
           <div className="animate-fade-in">
             <h1
-              className="text-6xl font-bold tracking-wide mb-4 text-center"
+              className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-wide mb-4 text-center"
               style={{
                 color: '#806D4B',
                 fontFamily: 'var(--font-gascogne)',
@@ -130,7 +130,7 @@ export default function FAQPage() {
             </h1>
 
             <p
-              className="text-lg text-center mb-12"
+              className="text-sm md:text-lg text-center mb-12"
               style={{
                 color: '#DCD3B8',
                 fontFamily: 'var(--font-pangea)'
@@ -164,11 +164,10 @@ export default function FAQPage() {
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent
-                  className="px-6 pb-4 pt-2"
+                  className="px-6 pb-4 pt-2 text-sm md:text-base"
                   style={{
                     color: '#DCD3B8',
                     fontFamily: 'var(--font-pangea)',
-                    fontSize: '1rem',
                     lineHeight: '1.75'
                   }}
                 >
@@ -196,7 +195,7 @@ export default function FAQPage() {
               Still Have Questions?
             </h2>
             <p
-              className="mb-6"
+              className="mb-6 text-sm md:text-base"
               style={{
                 color: '#DCD3B8',
                 fontFamily: 'var(--font-pangea)'

@@ -118,16 +118,18 @@ export default function Home() {
       <Header />
 
       {/* Hero Section */}
-      <div className="flex h-screen items-center justify-center relative -mt-[73px]" style={{ overflow: 'visible' }}>
-        {/* Hero Image Background */}
-        <Image
-          src="/Images/Hero Image.jpg"
-          alt="Hero Background"
-          fill
-          priority
-          className="object-cover"
-          style={{ zIndex: 0, filter: 'blur(3px)', transform: 'scale(1.05)' }}
-        />
+      <div className="flex h-[70vh] md:h-screen items-center justify-center relative -mt-[73px] overflow-visible">
+        {/* Hero Image Background - Contained */}
+        <div className="absolute inset-0 overflow-hidden">
+          <Image
+            src="/Images/Hero Image.jpg"
+            alt="Hero Background"
+            fill
+            priority
+            className="object-cover"
+            style={{ zIndex: 0, filter: 'blur(3px)', transform: 'scale(1.05)' }}
+          />
+        </div>
 
         {/* Gradient overlay for seamless transition */}
         <div
@@ -151,9 +153,8 @@ export default function Home() {
 
         {/* Logo Icon */}
         <main
-          className="absolute left-1/2 z-30 animate-fade-in-scale"
+          className="absolute left-1/2 z-30 animate-fade-in-scale top-[37%] md:top-[40%]"
           style={{
-            top: '40%',
             animationDelay: '0.4s',
             opacity: 0,
           }}
@@ -171,16 +172,31 @@ export default function Home() {
 
         {/* Events Section - Positioned at bottom of hero */}
         <div
-          className="absolute bottom-0 left-0 right-0 z-30 overflow-visible animate-fade-in-opacity"
+          className="absolute bottom-0 left-0 right-0 z-30 animate-fade-in-opacity translate-y-[25%] md:translate-y-[45%]"
           style={{
-            transform: 'translateY(45%)',
             animationDelay: '0.6s',
             opacity: 0,
           }}
         >
-          <div className="flex items-start justify-center gap-6 px-8 overflow-visible">
-            {/* Vertical Text on Left */}
-            <div className="flex-shrink-0" style={{ display: 'flex', alignItems: 'flex-start' }}>
+          <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-3 md:gap-6 px-4 md:px-8">
+            {/* Horizontal Text on Mobile, Vertical on Desktop */}
+            <div className="flex-shrink-0 md:hidden mb-1">
+              <h2
+                className="tracking-wider whitespace-nowrap text-center"
+                style={{
+                  color: '#806D4B',
+                  fontFamily: 'var(--font-gascogne)',
+                  fontWeight: '900',
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.2em',
+                }}
+              >
+                UPCOMING EVENTS
+              </h2>
+            </div>
+
+            {/* Vertical Text on Desktop */}
+            <div className="hidden md:flex flex-shrink-0" style={{ alignItems: 'flex-start' }}>
               <h2
                 className="tracking-wider whitespace-nowrap"
                 style={{
@@ -200,7 +216,7 @@ export default function Home() {
             </div>
 
             {/* Carousel */}
-            <div className="flex-1 max-w-7xl overflow-visible">
+            <div className="flex-1 max-w-7xl w-full">
               <EventsCarousel events={upcomingEvents} />
             </div>
           </div>
@@ -237,14 +253,14 @@ export default function Home() {
         </div>
 
         {/* Content goes here */}
-        <div className="relative z-10 flex items-center min-h-screen" style={{ paddingTop: '150px' }}>
+        <div className="relative z-10 flex items-center min-h-screen pt-[80px] md:pt-[120px] lg:pt-[150px]">
           {/* Escape the Ordinary Section */}
-          <div className="container mx-auto px-8 max-w-7xl py-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="container mx-auto px-4 md:px-8 max-w-7xl py-8 md:py-12 lg:py-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
               {/* Left Side - Text Content */}
-              <div className="space-y-6 animate-slide-in-left">
+              <div className="space-y-4 md:space-y-6 animate-slide-in-left text-center md:text-left">
                 <h2
-                  className="text-6xl font-bold tracking-wide"
+                  className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-wide"
                   style={{
                     color: '#806D4B',
                     fontFamily: 'var(--font-gascogne)',
@@ -254,7 +270,7 @@ export default function Home() {
                   ESCAPE THE ORDINARY
                 </h2>
                 <p
-                  className="text-lg leading-relaxed"
+                  className="text-sm md:text-lg leading-relaxed"
                   style={{
                     color: '#DCD3B8',
                     fontFamily: 'var(--font-pangea)'
@@ -265,10 +281,10 @@ export default function Home() {
               </div>
 
               {/* Right Side - Overlapped Images */}
-              <div className="relative h-[500px]">
+              <div className="relative h-[400px] md:h-[500px]">
                 {/* Image 1 */}
                 <div
-                  className="absolute top-0 left-0 w-[70%] h-[350px] rounded-lg overflow-hidden animate-slide-in-right delay-200"
+                  className="absolute top-0 left-0 w-[70%] h-[250px] md:h-[350px] rounded-lg overflow-hidden animate-slide-in-right delay-200"
                   style={{
                     border: '2px solid #806D4B',
                     backgroundColor: '#2C2C2C',
@@ -285,7 +301,7 @@ export default function Home() {
 
                 {/* Image 2 - Overlapped */}
                 <div
-                  className="absolute bottom-0 right-0 w-[70%] h-[350px] rounded-lg overflow-hidden animate-slide-in-right delay-400"
+                  className="absolute bottom-0 right-0 w-[70%] h-[250px] md:h-[350px] rounded-lg overflow-hidden animate-slide-in-right delay-400"
                   style={{
                     border: '2px solid #806D4B',
                     backgroundColor: '#2C2C2C',
@@ -303,31 +319,49 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottle Service Section */}
-      <div
-        className="relative overflow-visible"
-        style={{ backgroundColor: '#1F1F1F' }}
-      >
-        {/* Grain texture */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E")`,
-            opacity: 0.6,
-            mixBlendMode: 'overlay'
-          }}
-        />
-
-        {/* Content */}
+        {/* Bottle Service Content */}
         <div className="relative z-10 overflow-visible">
-          <div className="container mx-auto px-8 max-w-7xl pb-8 overflow-visible">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center overflow-visible">
-              {/* Left Side - Image */}
-              <div className="relative h-[300px] w-full max-w-[500px] rounded-lg overflow-visible animate-slide-in-left">
+          <div className="container mx-auto px-4 md:px-8 max-w-7xl py-8 md:py-12 lg:py-16 overflow-visible">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-20 items-center overflow-visible">
+              {/* Text Content - First on mobile, second on desktop */}
+              <div className="space-y-4 md:space-y-6 animate-slide-in-right delay-200 lg:order-2 text-center md:text-left">
+                <h2
+                  className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-wide"
+                  style={{
+                    color: '#806D4B',
+                    fontFamily: 'var(--font-gascogne)',
+                    fontWeight: '900'
+                  }}
+                >
+                  BOTTLE SERVICE
+                </h2>
+                <p
+                  className="text-sm md:text-lg leading-relaxed"
+                  style={{
+                    color: '#DCD3B8',
+                    fontFamily: 'var(--font-pangea)'
+                  }}
+                >
+                  Reserve your private table and experience Wynwood's most sought-after nightlife destination. Premium bottle service, dedicated VIP hosting, and the energy of Miami's best nights.
+                </p>
+                <button
+                  className="px-6 md:px-8 py-2 md:py-3 text-base md:text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] rounded-md"
+                  style={{
+                    backgroundColor: '#806D4B',
+                    color: '#DCD3B8',
+                    fontFamily: 'var(--font-gascogne)',
+                    border: '2px solid #806D4B'
+                  }}
+                >
+                  BOOK NOW
+                </button>
+              </div>
+
+              {/* Image - Second on mobile, first on desktop */}
+              <div className="relative h-[250px] md:h-[300px] w-full max-w-[500px] rounded-lg overflow-hidden md:overflow-visible animate-slide-in-left lg:order-1">
                 {/* Sun and Moon - Behind Image as Accent */}
-                <div className="absolute -top-28 -left-32 pointer-events-none" style={{ zIndex: 0 }}>
+                <div className="absolute -top-28 -left-32 pointer-events-none hidden lg:block" style={{ zIndex: 0 }}>
                   <Image
                     src="/Images/Sun and Moon.svg"
                     alt="Sun and Moon"
@@ -348,40 +382,6 @@ export default function Home() {
                     style={{ objectFit: 'cover', borderRadius: '0.5rem' }}
                   />
                 </div>
-              </div>
-
-              {/* Right Side - Text Content */}
-              <div className="space-y-4 animate-slide-in-right delay-200">
-                <h2
-                  className="text-5xl font-bold tracking-wide"
-                  style={{
-                    color: '#806D4B',
-                    fontFamily: 'var(--font-gascogne)',
-                    fontWeight: '900'
-                  }}
-                >
-                  BOTTLE SERVICE
-                </h2>
-                <p
-                  className="text-lg leading-relaxed"
-                  style={{
-                    color: '#DCD3B8',
-                    fontFamily: 'var(--font-pangea)'
-                  }}
-                >
-                  Reserve your private table and experience Wynwood's most sought-after nightlife destination. Premium bottle service, dedicated VIP hosting, and the energy of Miami's best nights.
-                </p>
-                <button
-                  className="px-8 py-3 text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] rounded-md"
-                  style={{
-                    backgroundColor: '#806D4B',
-                    color: '#DCD3B8',
-                    fontFamily: 'var(--font-gascogne)',
-                    border: '2px solid #806D4B'
-                  }}
-                >
-                  BOOK NOW
-                </button>
               </div>
             </div>
           </div>
@@ -466,7 +466,7 @@ export default function Home() {
 
       {/* Call to Action - View All Events */}
       <div
-        className="relative overflow-visible"
+        className="relative overflow-hidden md:overflow-visible"
         style={{ backgroundColor: '#1F1F1F' }}
       >
         {/* Grain texture */}
@@ -481,7 +481,7 @@ export default function Home() {
 
         {/* Content */}
         <div className="relative z-10">
-          <div className="container mx-auto px-8 max-w-7xl py-20">
+          <div className="container mx-auto px-4 md:px-8 max-w-7xl py-8 md:py-12 lg:py-16">
             {/* Outlined CTA Box */}
             <div
               className="relative rounded-lg overflow-hidden animate-slide-up"
@@ -491,7 +491,7 @@ export default function Home() {
               }}
             >
               {/* Splat Background Accent */}
-              <div className="absolute top-1/2 -right-64 pointer-events-none" style={{ transform: 'translateY(-50%)', zIndex: 0 }}>
+              <div className="absolute top-1/2 -right-64 pointer-events-none hidden lg:block" style={{ transform: 'translateY(-50%)', zIndex: 0 }}>
                 <Image
                   src="/Images/Splat.svg"
                   alt="Splat"
@@ -505,9 +505,9 @@ export default function Home() {
               </div>
 
               {/* Content */}
-              <div className="relative z-10 py-16 px-12 text-center">
+              <div className="relative z-10 py-10 md:py-12 lg:py-16 px-6 md:px-12 text-center">
                 <h2
-                  className="text-5xl font-bold tracking-wide mb-6"
+                  className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-wide mb-4 md:mb-6"
                   style={{
                     color: '#806D4B',
                     fontFamily: 'var(--font-gascogne)',
@@ -517,7 +517,7 @@ export default function Home() {
                   DISCOVER WHAT'S NEXT
                 </h2>
                 <p
-                  className="text-xl leading-relaxed mb-8 max-w-2xl mx-auto"
+                  className="text-sm md:text-lg lg:text-xl leading-relaxed mb-6 md:mb-8 max-w-2xl mx-auto"
                   style={{
                     color: '#DCD3B8',
                     fontFamily: 'var(--font-pangea)'
@@ -527,7 +527,7 @@ export default function Home() {
                 </p>
                 <Link
                   href="/events"
-                  className="inline-block px-12 py-4 text-xl font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] rounded-md"
+                  className="inline-block px-8 md:px-12 py-3 md:py-4 text-base md:text-xl font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] rounded-md"
                   style={{
                     backgroundColor: '#806D4B',
                     color: '#DCD3B8',

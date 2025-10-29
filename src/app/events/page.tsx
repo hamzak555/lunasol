@@ -180,7 +180,7 @@ export default function EventsPage() {
 
       {/* Full Page Calendar */}
       <div
-        className="relative min-h-screen pt-40 pb-8 -mt-[73px]"
+        className="relative min-h-screen pt-[121px] pb-8 md:pb-12 lg:pb-16 -mt-[73px]"
         style={{ backgroundColor: '#1F1F1F' }}
       >
         {/* Grain texture overlay */}
@@ -193,7 +193,7 @@ export default function EventsPage() {
           }}
         />
 
-        <div className="relative z-10 container mx-auto px-8 max-w-7xl h-full">
+        <div className="relative z-10 container mx-auto px-4 md:px-8 max-w-7xl h-full">
           {loading ? (
             <div className="text-center py-20">
               <p style={{ color: '#DCD3B8', fontFamily: 'var(--font-pangea)' }}>
@@ -201,11 +201,11 @@ export default function EventsPage() {
               </p>
             </div>
           ) : (
-            <div className="flex flex-col lg:flex-row gap-8 h-full">
+            <div className="flex flex-col lg:flex-row gap-0 h-full">
               {/* Left Side - Calendar (40%) */}
               <div className="flex flex-col lg:w-[40%] animate-slide-in-left">
                 {/* Calendar Header */}
-                <div className="mb-6">
+                <div className="mb-0">
                   <div className="flex items-center justify-between">
                     <button
                       onClick={prevMonth}
@@ -216,7 +216,7 @@ export default function EventsPage() {
                     </button>
 
                     <h1
-                      className="text-4xl font-bold tracking-wide"
+                      className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide"
                       style={{
                         color: '#806D4B',
                         fontFamily: 'var(--font-gascogne)',
@@ -238,7 +238,7 @@ export default function EventsPage() {
                   {/* Full Date Display */}
                   {selectedDate && (
                     <h2
-                      className="text-2xl font-bold text-center"
+                      className="text-lg md:text-xl lg:text-2xl font-bold text-center"
                       style={{
                         color: '#DCD3B8',
                         fontFamily: 'var(--font-gascogne)'
@@ -251,7 +251,7 @@ export default function EventsPage() {
 
                 <div className="flex flex-col flex-1">
                   {/* Weekday Headers */}
-                  <div className="grid grid-cols-7 gap-2 mb-2">
+                  <div className="grid grid-cols-7 gap-2 mb-0">
                     {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
                       <div
                         key={day}
@@ -327,9 +327,9 @@ export default function EventsPage() {
               </div>
 
               {/* Right Side - Events Display (60%) */}
-              <div className="flex flex-col lg:w-[60%] animate-slide-in-right delay-200">
+              <div className="flex flex-col lg:w-[60%] animate-slide-in-right delay-200 -mt-12">
                 {/* Spacer to align with calendar header */}
-                <div className="mb-6">
+                <div className="mb-0">
                   <div className="flex items-center justify-between opacity-0">
                     <div className="p-3">
                       <ChevronLeft className="h-8 w-8" />
@@ -427,7 +427,7 @@ export default function EventsPage() {
                             No Public Events This Date
                           </h3>
                           <p
-                            className="text-lg mb-6"
+                            className="text-sm md:text-lg mb-6"
                             style={{
                               color: '#DCD3B8',
                               fontFamily: 'var(--font-pangea)'

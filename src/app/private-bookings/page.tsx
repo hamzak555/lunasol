@@ -106,7 +106,7 @@ export default function PrivateBookingsPage() {
 
       {/* Private Bookings Content */}
       <div
-        className="relative min-h-screen pt-40 pb-16 -mt-[73px]"
+        className="relative min-h-screen pt-[121px] pb-8 md:pb-12 lg:pb-16 -mt-[73px]"
         style={{ backgroundColor: '#1F1F1F' }}
       >
         {/* Grain texture overlay */}
@@ -121,7 +121,7 @@ export default function PrivateBookingsPage() {
 
         {/* Spotted Pattern - Left side cropped */}
         <div
-          className="absolute top-1/2 -left-32 pointer-events-none"
+          className="absolute top-0 md:top-1/2 -left-32 pointer-events-none"
           style={{ width: '800px', height: '800px', zIndex: 5, opacity: 0.3, transform: 'translateY(-50%)' }}
         >
           <Image
@@ -132,18 +132,18 @@ export default function PrivateBookingsPage() {
           />
         </div>
 
-        <div className="relative z-10 container mx-auto px-8 max-w-6xl">
+        <div className="relative z-10 container mx-auto px-4 md:px-8 max-w-6xl">
           {/* Page Title */}
           <div className="animate-fade-in">
             <h1
-              className="text-6xl font-bold tracking-wide mb-4 text-center"
+              className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-wide mb-4 text-center"
               style={{
                 color: '#806D4B',
                 fontFamily: 'var(--font-gascogne)',
                 fontWeight: '900'
               }}
             >
-              PRIVATE BOOKINGS
+              PRIVATE<br className="md:hidden" /> BOOKINGS
             </h1>
 
             {/* Sun Icon */}
@@ -167,7 +167,7 @@ export default function PrivateBookingsPage() {
             }}
           >
             <p
-              className="text-lg leading-relaxed mb-6"
+              className="text-sm md:text-lg leading-relaxed mb-6"
               style={{
                 color: '#DCD3B8',
                 fontFamily: 'var(--font-pangea)'
@@ -189,6 +189,7 @@ export default function PrivateBookingsPage() {
                   Premium Bottle Service
                 </h3>
                 <p
+                  className="text-sm md:text-base"
                   style={{
                     color: '#DCD3B8',
                     fontFamily: 'var(--font-pangea)'
@@ -208,6 +209,7 @@ export default function PrivateBookingsPage() {
                   Flexible Spaces
                 </h3>
                 <p
+                  className="text-sm md:text-base"
                   style={{
                     color: '#DCD3B8',
                     fontFamily: 'var(--font-pangea)'
@@ -227,6 +229,7 @@ export default function PrivateBookingsPage() {
                   Unforgettable Experience
                 </h3>
                 <p
+                  className="text-sm md:text-base"
                   style={{
                     color: '#DCD3B8',
                     fontFamily: 'var(--font-pangea)'
@@ -238,7 +241,7 @@ export default function PrivateBookingsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12">
             {/* Booking Form */}
             <div
               className="p-8 rounded-lg animate-slide-in-left delay-300"
@@ -516,7 +519,7 @@ export default function PrivateBookingsPage() {
                   ].map((item, index) => (
                     <li
                       key={index}
-                      className="flex items-center gap-3"
+                      className="flex items-center gap-3 text-sm md:text-base"
                       style={{
                         color: '#DCD3B8',
                         fontFamily: 'var(--font-pangea)'
@@ -547,6 +550,7 @@ export default function PrivateBookingsPage() {
                 </h2>
                 <div className="space-y-4">
                   <p
+                    className="text-sm md:text-base"
                     style={{
                       color: '#DCD3B8',
                       fontFamily: 'var(--font-pangea)'
@@ -556,6 +560,7 @@ export default function PrivateBookingsPage() {
                     available packages, and pricing options.
                   </p>
                   <p
+                    className="text-sm md:text-base"
                     style={{
                       color: '#DCD3B8',
                       fontFamily: 'var(--font-pangea)'
@@ -584,7 +589,7 @@ export default function PrivateBookingsPage() {
                   Questions?
                 </h2>
                 <p
-                  className="mb-4"
+                  className="mb-4 text-sm md:text-base"
                   style={{
                     color: '#DCD3B8',
                     fontFamily: 'var(--font-pangea)'

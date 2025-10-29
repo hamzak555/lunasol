@@ -101,7 +101,7 @@ export default function SitemapPage() {
       <Header />
 
       <div
-        className="relative min-h-screen pt-40 pb-16 -mt-[73px]"
+        className="relative min-h-screen pt-[121px] pb-8 md:pb-12 lg:pb-16 -mt-[73px]"
         style={{ backgroundColor: '#1F1F1F' }}
       >
         {/* Grain texture overlay */}
@@ -114,10 +114,10 @@ export default function SitemapPage() {
           }}
         />
 
-        <div className="relative z-10 container mx-auto px-8 max-w-4xl">
+        <div className="relative z-10 container mx-auto px-4 md:px-8 max-w-4xl">
           {/* Page Title */}
           <h1
-            className="text-6xl font-bold tracking-wide mb-4 text-center"
+            className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-wide mb-4 text-center"
             style={{
               color: '#806D4B',
               fontFamily: 'var(--font-gascogne)',
@@ -128,7 +128,7 @@ export default function SitemapPage() {
           </h1>
 
           <p
-            className="text-lg text-center mb-12"
+            className="text-sm md:text-lg text-center mb-12"
             style={{
               color: '#DCD3B8',
               fontFamily: 'var(--font-pangea)'
@@ -162,11 +162,10 @@ export default function SitemapPage() {
                     <li key={linkIndex}>
                       <Link
                         href={link.href}
-                        className="flex items-center gap-3 transition-colors hover:text-[#806D4B] group"
+                        className="flex items-center gap-3 transition-colors hover:text-[#806D4B] group text-sm md:text-lg"
                         style={{
                           color: '#DCD3B8',
-                          fontFamily: 'var(--font-pangea)',
-                          fontSize: '1.125rem'
+                          fontFamily: 'var(--font-pangea)'
                         }}
                       >
                         <span
@@ -202,7 +201,7 @@ export default function SitemapPage() {
               Need Help?
             </h2>
             <p
-              className="mb-6"
+              className="mb-6 text-sm md:text-base"
               style={{
                 color: '#DCD3B8',
                 fontFamily: 'var(--font-pangea)'

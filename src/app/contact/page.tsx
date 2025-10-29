@@ -94,7 +94,7 @@ export default function ContactPage() {
 
       {/* Contact Content */}
       <div
-        className="relative min-h-screen pt-40 pb-16 -mt-[73px]"
+        className="relative min-h-screen pt-[121px] pb-8 md:pb-12 lg:pb-16 -mt-[73px]"
         style={{ backgroundColor: '#1F1F1F' }}
       >
         {/* Grain texture overlay */}
@@ -120,11 +120,11 @@ export default function ContactPage() {
           />
         </div>
 
-        <div className="relative z-10 container mx-auto px-8 max-w-6xl">
+        <div className="relative z-10 container mx-auto px-4 md:px-8 max-w-6xl">
           {/* Page Title */}
           <div className="animate-fade-in">
             <h1
-              className="text-6xl font-bold tracking-wide mb-6 text-center"
+              className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-wide mb-6 text-center"
               style={{
                 color: '#806D4B',
                 fontFamily: 'var(--font-gascogne)',
@@ -146,11 +146,11 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12">
             {/* Contact Information */}
-            <div className="space-y-8 animate-slide-in-left delay-200">
+            <div className="order-1 lg:order-none">
               <div
-                className="p-6 rounded-lg"
+                className="p-6 rounded-lg animate-slide-in-left delay-200"
                 style={{
                   backgroundColor: '#2C2C2C',
                   border: '2px solid #806D4B'
@@ -178,6 +178,7 @@ export default function ContactPage() {
                       Address
                     </h3>
                     <p
+                      className="text-sm md:text-base"
                       style={{
                         color: '#DCD3B8',
                         fontFamily: 'var(--font-pangea)'
@@ -199,6 +200,7 @@ export default function ContactPage() {
                       Hours
                     </h3>
                     <p
+                      className="text-sm md:text-base"
                       style={{
                         color: '#DCD3B8',
                         fontFamily: 'var(--font-pangea)'
@@ -221,7 +223,7 @@ export default function ContactPage() {
                     </h3>
                     <a
                       href="mailto:info@lunasol-miami.com"
-                      className="transition-colors hover:text-[#806D4B]"
+                      className="transition-colors hover:text-[#806D4B] text-sm md:text-base"
                       style={{
                         color: '#DCD3B8',
                         fontFamily: 'var(--font-pangea)'
@@ -245,7 +247,7 @@ export default function ContactPage() {
                       href="https://www.instagram.com/lunasol/?hl=en"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 transition-colors hover:text-[#806D4B]"
+                      className="inline-flex items-center gap-2 transition-colors hover:text-[#806D4B] text-sm md:text-base"
                       style={{
                         color: '#DCD3B8',
                         fontFamily: 'var(--font-pangea)'
@@ -271,66 +273,17 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
+            </div>
 
+            {/* Contact Form */}
+            <div className="order-2 lg:order-none">
               <div
-                className="p-6 rounded-lg"
+                className="p-8 rounded-lg animate-slide-in-right delay-400"
                 style={{
                   backgroundColor: '#2C2C2C',
                   border: '2px solid #806D4B'
                 }}
               >
-                <h2
-                  className="text-2xl font-bold mb-4"
-                  style={{
-                    color: '#806D4B',
-                    fontFamily: 'var(--font-gascogne)'
-                  }}
-                >
-                  Quick Links
-                </h2>
-                <div className="space-y-3">
-                  <a
-                    href="/private-bookings"
-                    className="block transition-colors hover:text-[#806D4B]"
-                    style={{
-                      color: '#DCD3B8',
-                      fontFamily: 'var(--font-pangea)'
-                    }}
-                  >
-                    Private Bookings →
-                  </a>
-                  <a
-                    href="/events"
-                    className="block transition-colors hover:text-[#806D4B]"
-                    style={{
-                      color: '#DCD3B8',
-                      fontFamily: 'var(--font-pangea)'
-                    }}
-                  >
-                    Upcoming Events →
-                  </a>
-                  <a
-                    href="/faq"
-                    className="block transition-colors hover:text-[#806D4B]"
-                    style={{
-                      color: '#DCD3B8',
-                      fontFamily: 'var(--font-pangea)'
-                    }}
-                  >
-                    FAQ →
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Contact Form */}
-            <div
-              className="p-8 rounded-lg animate-slide-in-right delay-400"
-              style={{
-                backgroundColor: '#2C2C2C',
-                border: '2px solid #806D4B'
-              }}
-            >
               <h2
                 className="text-2xl font-bold mb-6"
                 style={{
@@ -486,6 +439,60 @@ export default function ContactPage() {
                   {submitting ? "SENDING..." : "SEND MESSAGE"}
                 </button>
               </form>
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div className="order-3 lg:order-none lg:col-start-1 lg:row-start-2">
+              <div
+                className="p-6 rounded-lg"
+                style={{
+                  backgroundColor: '#2C2C2C',
+                  border: '2px solid #806D4B'
+                }}
+              >
+                <h2
+                  className="text-2xl font-bold mb-4"
+                  style={{
+                    color: '#806D4B',
+                    fontFamily: 'var(--font-gascogne)'
+                  }}
+                >
+                  Quick Links
+                </h2>
+                <div className="space-y-3">
+                  <a
+                    href="/private-bookings"
+                    className="block transition-colors hover:text-[#806D4B] text-sm md:text-base"
+                    style={{
+                      color: '#DCD3B8',
+                      fontFamily: 'var(--font-pangea)'
+                    }}
+                  >
+                    Private Bookings →
+                  </a>
+                  <a
+                    href="/events"
+                    className="block transition-colors hover:text-[#806D4B] text-sm md:text-base"
+                    style={{
+                      color: '#DCD3B8',
+                      fontFamily: 'var(--font-pangea)'
+                    }}
+                  >
+                    Upcoming Events →
+                  </a>
+                  <a
+                    href="/faq"
+                    className="block transition-colors hover:text-[#806D4B] text-sm md:text-base"
+                    style={{
+                      color: '#DCD3B8',
+                      fontFamily: 'var(--font-pangea)'
+                    }}
+                  >
+                    FAQ →
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
