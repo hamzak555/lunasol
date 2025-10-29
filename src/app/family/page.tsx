@@ -129,7 +129,7 @@ export default function FamilyPage() {
           {/* Page Title */}
           <div className="text-center mb-12 animate-fade-in">
             <h1
-              className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-wide mb-8"
+              className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-wide mb-4"
               style={{
                 color: '#806D4B',
                 fontFamily: 'var(--font-gascogne)',

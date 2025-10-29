@@ -181,7 +181,7 @@ export default function GalleryPage() {
           <div className="container mx-auto px-4 md:px-8 max-w-7xl">
             <div className="text-center mb-16 animate-fade-in">
               <h1
-                className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-wide mb-8"
+                className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-wide mb-4"
                 style={{
                   color: '#806D4B',
                   fontFamily: 'var(--font-gascogne)',
