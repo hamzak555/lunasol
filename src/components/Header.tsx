@@ -224,7 +224,7 @@ export function Header() {
 
           {/* Book Now Button */}
           <Link
-            href="/book"
+            href="/book-now"
             className="flex items-center justify-center px-8 text-base font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#0F0F0F]"
             style={{
               backgroundColor: '#806D4B',
@@ -377,7 +377,7 @@ export function Header() {
 
             {/* Book Now Button */}
             <Link
-              href="/book"
+              href="/book-now"
               onClick={() => setIsMobileMenuOpen(false)}
               className="mx-6 my-4 py-3 text-center text-base font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#0F0F0F]"
               style={{

@@ -171,56 +171,58 @@ export default function Home() {
         </main>
 
         {/* Events Section - Positioned at bottom of hero */}
-        <div
-          className="absolute bottom-0 left-0 right-0 z-30 animate-fade-in-opacity translate-y-[25%] md:translate-y-[45%]"
-          style={{
-            animationDelay: '0.6s',
-            opacity: 0,
-          }}
-        >
-          <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-3 md:gap-6 px-4 md:px-8">
-            {/* Horizontal Text on Mobile, Vertical on Desktop */}
-            <div className="flex-shrink-0 md:hidden mb-1">
-              <h2
-                className="tracking-wider whitespace-nowrap text-center"
-                style={{
-                  color: '#806D4B',
-                  fontFamily: 'var(--font-gascogne)',
-                  fontWeight: '900',
-                  fontSize: '0.75rem',
-                  letterSpacing: '0.2em',
-                }}
-              >
-                UPCOMING EVENTS
-              </h2>
-            </div>
+        {upcomingEvents.length > 0 && (
+          <div
+            className="absolute bottom-0 left-0 right-0 z-30 animate-fade-in-opacity translate-y-[25%] md:translate-y-[45%]"
+            style={{
+              animationDelay: '0.6s',
+              opacity: 0,
+            }}
+          >
+            <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-3 md:gap-6 px-4 md:px-8">
+              {/* Horizontal Text on Mobile, Vertical on Desktop */}
+              <div className="flex-shrink-0 md:hidden mb-1">
+                <h2
+                  className="tracking-wider whitespace-nowrap text-center"
+                  style={{
+                    color: '#806D4B',
+                    fontFamily: 'var(--font-gascogne)',
+                    fontWeight: '900',
+                    fontSize: '0.75rem',
+                    letterSpacing: '0.2em',
+                  }}
+                >
+                  UPCOMING EVENTS
+                </h2>
+              </div>
 
-            {/* Vertical Text on Desktop */}
-            <div className="hidden md:flex flex-shrink-0" style={{ alignItems: 'flex-start' }}>
-              <h2
-                className="tracking-wider whitespace-nowrap"
-                style={{
-                  color: '#806D4B',
-                  fontFamily: 'var(--font-gascogne)',
-                  fontWeight: '900',
-                  writingMode: 'vertical-rl',
-                  textOrientation: 'mixed',
-                  transform: 'rotate(180deg)',
-                  fontSize: '1rem',
-                  letterSpacing: '0.2em',
-                  lineHeight: '1'
-                }}
-              >
-                UPCOMING EVENTS
-              </h2>
-            </div>
+              {/* Vertical Text on Desktop */}
+              <div className="hidden md:flex flex-shrink-0" style={{ alignItems: 'flex-start' }}>
+                <h2
+                  className="tracking-wider whitespace-nowrap"
+                  style={{
+                    color: '#806D4B',
+                    fontFamily: 'var(--font-gascogne)',
+                    fontWeight: '900',
+                    writingMode: 'vertical-rl',
+                    textOrientation: 'mixed',
+                    transform: 'rotate(180deg)',
+                    fontSize: '1rem',
+                    letterSpacing: '0.2em',
+                    lineHeight: '1'
+                  }}
+                >
+                  UPCOMING EVENTS
+                </h2>
+              </div>
 
-            {/* Carousel */}
-            <div className="flex-1 max-w-7xl w-full">
-              <EventsCarousel events={upcomingEvents} />
+              {/* Carousel */}
+              <div className="flex-1 max-w-7xl w-full">
+                <EventsCarousel events={upcomingEvents} />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Extended Content Section */}
@@ -345,8 +347,9 @@ export default function Home() {
                 >
                   Reserve your private table and experience Wynwood's most sought-after nightlife destination. Premium bottle service, dedicated VIP hosting, and the energy of Miami's best nights.
                 </p>
-                <button
-                  className="px-6 md:px-8 py-2 md:py-3 text-base md:text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] rounded-md"
+                <Link
+                  href="/book-now"
+                  className="inline-block px-6 md:px-8 py-2 md:py-3 text-base md:text-lg font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#2C2C2C] rounded-md"
                   style={{
                     backgroundColor: '#806D4B',
                     color: '#DCD3B8',
@@ -355,7 +358,7 @@ export default function Home() {
                   }}
                 >
                   BOOK NOW
-                </button>
+                </Link>
               </div>
 
               {/* Image - Second on mobile, first on desktop */}

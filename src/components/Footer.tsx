@@ -281,7 +281,7 @@ export function Footer() {
           <div className="flex flex-col items-center md:items-center gap-3 md:gap-4 order-2 md:order-5 md:col-span-1">
             {/* Book Now Button */}
             <Link
-              href="/book"
+              href="/book-now"
               className="px-6 py-2 text-sm font-medium tracking-wide transition-all hover:bg-[#806D4B] hover:text-[#0F0F0F]"
               style={{
                 color: '#DCD3B8',
