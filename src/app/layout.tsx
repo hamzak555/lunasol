@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { LockScreen } from "@/components/LockScreen";
 import { BackToTop } from "@/components/BackToTop";
 
 const gascogne = localFont({
@@ -128,7 +127,7 @@ export default function RootLayout({
         className={`${gascogne.variable} ${pangea.variable} antialiased overflow-x-hidden`}
         style={{ fontFamily: 'var(--font-pangea)' }}
       >
-        <LockScreen>{children}</LockScreen>
+        {children}
         <BackToTop />
       </body>
     </html>
