@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { NotificationDialog } from "@/components/ui/notification-dialog";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -18,6 +19,17 @@ export default function ContactPage() {
 
   const [submitting, setSubmitting] = useState(false);
   const [moonTopPosition, setMoonTopPosition] = useState('50%');
+  const [notification, setNotification] = useState<{
+    open: boolean;
+    title: string;
+    description: string;
+    type: 'success' | 'error' | 'info';
+  }>({
+    open: false,
+    title: '',
+    description: '',
+    type: 'info'
+  });
 
   useEffect(() => {
     const updatePosition = () => {
@@ -51,15 +63,42 @@ export default function ContactPage() {
     e.preventDefault();
     setSubmitting(true);
 
-    // TODO: Add your form submission logic here
-    console.log("Form submitted:", formData);
+    try {
+      const submissionData = {
+        type: 'contact',
+        ...formData
+      };
 
-    // Simulate submission
-    setTimeout(() => {
-      alert("Thank you for contacting us! We'll get back to you soon.");
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
+
+      setNotification({
+        open: true,
+        title: 'Message Sent',
+        description: "Thank you for contacting us! We'll get back to you soon.",
+        type: 'success'
+      });
       setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setNotification({
+        open: true,
+        title: 'Submission Error',
+        description: 'There was an error submitting your message. Please try again or contact us directly.',
+        type: 'error'
+      });
+    } finally {
       setSubmitting(false);
-    }, 1000);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -494,6 +533,14 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+
+      <NotificationDialog
+        open={notification.open}
+        onOpenChange={(open) => setNotification({ ...notification, open })}
+        title={notification.title}
+        description={notification.description}
+        type={notification.type}
+      />
 
       <Footer />
     </>

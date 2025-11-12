@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
+import { NotificationDialog } from "@/components/ui/notification-dialog";
 
 export default function PrivateBookingsPage() {
   const [moonTopPosition, setMoonTopPosition] = useState('50%');
@@ -53,25 +54,60 @@ export default function PrivateBookingsPage() {
   const [eventDate, setEventDate] = useState<Date | undefined>(undefined);
   const [datePickerOpen, setDatePickerOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [notification, setNotification] = useState<{
+    open: boolean;
+    title: string;
+    description: string;
+    type: 'success' | 'error' | 'info';
+  }>({
+    open: false,
+    title: '',
+    description: '',
+    type: 'info'
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
 
-    // TODO: Add your form submission logic here
-    const submissionData = {
-      ...formData,
-      eventDate: eventDate ? format(eventDate, "MMMM d, yyyy") : ""
-    };
-    console.log("Booking submitted:", submissionData);
+    try {
+      const submissionData = {
+        type: 'private-booking',
+        ...formData,
+        eventDate: eventDate ? format(eventDate, "MMMM d, yyyy") : ""
+      };
 
-    // Simulate submission
-    setTimeout(() => {
-      alert("Thank you for your interest! Our events team will contact you within 24 hours.");
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
+
+      setNotification({
+        open: true,
+        title: 'Request Submitted',
+        description: 'Thank you for your interest! Our events team will contact you within 24 hours.',
+        type: 'success'
+      });
       setFormData({ name: "", email: "", phone: "", guestCount: "", eventType: "", message: "" });
       setEventDate(undefined);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setNotification({
+        open: true,
+        title: 'Submission Error',
+        description: 'There was an error submitting your request. Please try again or contact us directly.',
+        type: 'error'
+      });
+    } finally {
       setSubmitting(false);
-    }, 1000);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -615,6 +651,14 @@ export default function PrivateBookingsPage() {
           </div>
         </div>
       </div>
+
+      <NotificationDialog
+        open={notification.open}
+        onOpenChange={(open) => setNotification({ ...notification, open })}
+        title={notification.title}
+        description={notification.description}
+        type={notification.type}
+      />
 
       <Footer />
     </>
