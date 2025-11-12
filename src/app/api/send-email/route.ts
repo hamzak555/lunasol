@@ -4,9 +4,19 @@ import { Resend } from 'resend';
 export async function POST(request: NextRequest) {
   // Initialize Resend inside the function to avoid build-time errors
   const resend = new Resend(process.env.RESEND_API_KEY);
+
+  console.log('[Email API] Request received');
+  console.log('[Email API] Environment check:', {
+    hasApiKey: !!process.env.RESEND_API_KEY,
+    fromEmail: process.env.RESEND_FROM_EMAIL,
+    toEmail: process.env.RESEND_TO_EMAIL
+  });
+
   try {
     const body = await request.json();
     const { type, ...formData } = body;
+
+    console.log('[Email API] Form type:', type);
 
     // Validate required fields
     if (!formData.name || !formData.email) {
@@ -207,19 +217,31 @@ export async function POST(request: NextRequest) {
 
     // Send email via Resend
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@yourdomain.com';
-    const data = await resend.emails.send({
+    const emailConfig = {
       from: `Lunasol Miami <${fromEmail}>`,
       to: process.env.RESEND_TO_EMAIL || 'info@lunasol-miami.com',
       subject: subject,
       html: htmlContent,
       replyTo: formData.email,
+    };
+
+    console.log('[Email API] Sending email with config:', {
+      from: emailConfig.from,
+      to: emailConfig.to,
+      subject: emailConfig.subject,
+      replyTo: emailConfig.replyTo
     });
+
+    const data = await resend.emails.send(emailConfig);
+
+    console.log('[Email API] Email sent successfully:', data);
 
     return NextResponse.json({ success: true, data }, { status: 200 });
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('[Email API] Error sending email:', error);
+    console.error('[Email API] Error details:', JSON.stringify(error, null, 2));
     return NextResponse.json(
-      { error: 'Failed to send email' },
+      { error: 'Failed to send email', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
