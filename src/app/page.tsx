@@ -546,6 +546,109 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Private Bookings CTA */}
+      <div
+        className="relative overflow-hidden"
+        style={{ backgroundColor: '#1F1F1F' }}
+      >
+        {/* Grain texture */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E")`,
+            opacity: 0.6,
+            mixBlendMode: 'overlay'
+          }}
+        />
+
+        {/* Content */}
+        <div className="relative z-10">
+          <div className="container mx-auto px-4 md:px-8 max-w-7xl pt-2 pb-8 md:pt-4 md:pb-12 lg:pt-6 lg:pb-16">
+            {/* Elegant Card with Image Background */}
+            <div className="relative rounded-lg overflow-hidden animate-slide-up">
+              {/* Background Image with Overlay */}
+              <div className="absolute inset-0">
+                <Image
+                  src="/Images/private-events-banner.jpg"
+                  alt="Private Bookings"
+                  fill
+                  style={{ objectFit: 'cover', filter: 'brightness(0.8)' }}
+                />
+                {/* Gradient Overlay for text readability */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(44, 44, 44, 0.9) 0%, rgba(128, 109, 75, 0.5) 100%)'
+                  }}
+                />
+              </div>
+
+              {/* Border */}
+              <div className="absolute inset-0 rounded-lg pointer-events-none" style={{ border: '3px solid #806D4B' }} />
+
+              {/* Content */}
+              <div className="relative flex flex-col justify-center px-6 md:px-12 lg:px-16 pt-10 pb-2 md:py-12 lg:py-16" style={{ zIndex: 10 }}>
+                <div className="max-w-2xl space-y-6 md:space-y-8 mx-auto md:mx-0 text-center md:text-left">
+                  <h2
+                    className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-wide"
+                    style={{
+                      color: '#E9E6DE',
+                      fontFamily: 'var(--font-gascogne)',
+                      fontWeight: '900',
+                      lineHeight: '1.2'
+                    }}
+                  >
+                    CREATE AN UNFORGETTABLE
+                    <br />
+                    PRIVATE EXPERIENCE
+                  </h2>
+
+                  <p
+                    className="text-sm md:text-base lg:text-lg leading-relaxed"
+                    style={{
+                      color: '#DCD3B8',
+                      fontFamily: 'var(--font-pangea)',
+                      maxWidth: '600px'
+                    }}
+                  >
+                    From intimate celebrations to grand corporate affairs, transform Lunasol into your private sanctuary. Our dedicated team curates bespoke experiences tailored to your vision.
+                  </p>
+
+                  <div>
+                    <Link
+                      href="/private-bookings"
+                      className="inline-block px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-lg font-bold tracking-wide transition-all hover:bg-[#806D4B] rounded-md"
+                      style={{
+                        backgroundColor: 'transparent',
+                        color: '#E9E6DE',
+                        fontFamily: 'var(--font-gascogne)',
+                        border: '2px solid #806D4B'
+                      }}
+                    >
+                      EXPLORE PRIVATE BOOKINGS
+                    </Link>
+                  </div>
+
+                  {/* Sun Icon Accent - Below button on mobile, right side on desktop */}
+                  <div className="flex justify-center md:block -mt-2 md:mt-0">
+                    <div className="md:absolute md:bottom-8 lg:bottom-12 md:right-12 lg:right-16 pointer-events-none">
+                      <Image
+                        src="/Images/Sun Icon 2.svg"
+                        alt="Sun Icon"
+                        width={150}
+                        height={150}
+                        className="w-24 h-24 md:w-32 md:h-32 lg:w-[150px] lg:h-[150px]"
+                        style={{ opacity: 0.25 }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Footer */}
       <Footer />
     </>
