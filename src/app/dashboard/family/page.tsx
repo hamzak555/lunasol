@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
-import { X, Upload } from "lucide-react";
+import { X, Upload, GripVertical } from "lucide-react";
 import imageCompression from 'browser-image-compression';
 import {
   AlertDialog,
@@ -32,6 +32,8 @@ export default function DashboardFamilyPage() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [selectedArtists, setSelectedArtists] = useState<Set<string>>(new Set());
+  const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
   const [artistToDelete, setArtistToDelete] = useState<Artist | null>(null);
   const [showDeleteMultiple, setShowDeleteMultiple] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -312,39 +314,62 @@ export default function DashboardFamilyPage() {
 
   const handleDragStart = (e: React.DragEvent, index: number) => {
     e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', index.toString());
+    e.dataTransfer.setData('text/plain', index.toString());
+    // Set drag image to the card, positioned at cursor location
+    const card = e.currentTarget.closest('[data-card]') as HTMLElement;
+    if (card) {
+      const cardRect = card.getBoundingClientRect();
+      const offsetX = e.clientX - cardRect.left;
+      const offsetY = e.clientY - cardRect.top;
+      e.dataTransfer.setDragImage(card, offsetX, offsetY);
+    }
+    setDraggingIndex(index);
   };
 
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOver = (e: React.DragEvent, index: number) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
+    if (draggingIndex !== null && draggingIndex !== index && dragOverIndex !== index) {
+      setDragOverIndex(index);
+    }
+  };
+
+  const handleDragEnd = () => {
+    setDraggingIndex(null);
+    setDragOverIndex(null);
   };
 
   const handleDrop = async (e: React.DragEvent, dropIndex: number) => {
     e.preventDefault();
-    const dragIndex = parseInt(e.dataTransfer.getData('text/html'));
+    const dragIndex = parseInt(e.dataTransfer.getData('text/plain'));
 
-    if (dragIndex === dropIndex) return;
+    if (isNaN(dragIndex) || dragIndex === dropIndex) {
+      setDraggingIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
 
     const newArtists = [...artists];
     const [draggedArtist] = newArtists.splice(dragIndex, 1);
     newArtists.splice(dropIndex, 0, draggedArtist);
 
-    // Update display order
-    const updates = newArtists.map((artist, index) => ({
-      id: artist.id,
-      display_order: index
+    // Update display_order on each artist object so numbers update immediately
+    const updatedArtists = newArtists.map((artist, idx) => ({
+      ...artist,
+      display_order: idx
     }));
 
-    setArtists(newArtists);
+    setArtists(updatedArtists);
+    setDraggingIndex(null);
+    setDragOverIndex(null);
 
     // Update in database
     try {
-      for (const update of updates) {
+      for (const artist of updatedArtists) {
         await supabase
           .from('family')
-          .update({ display_order: update.display_order })
-          .eq('id', update.id);
+          .update({ display_order: artist.display_order })
+          .eq('id', artist.id);
       }
     } catch (error) {
       console.error('Error updating order:', error);
@@ -458,7 +483,7 @@ export default function DashboardFamilyPage() {
                   className="text-sm"
                   style={{ color: '#DCD3B8', fontFamily: 'var(--font-pangea)' }}
                 >
-                  <strong>Tips:</strong> Drag items to reorder • Click items to select for deletion
+                  <strong>Tips:</strong> Use the grip icon to drag and reorder • Click cards to select for deletion
                 </p>
                 {artists.length > 0 && selectedArtists.size === 0 && (
                   <button
@@ -479,20 +504,31 @@ export default function DashboardFamilyPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {artists.map((artist, index) => {
                 const isSelected = selectedArtists.has(artist.id);
+                const isDragging = draggingIndex === index;
+                const isDragOver = dragOverIndex === index && draggingIndex !== null && draggingIndex !== index;
 
                 return (
                   <div
                     key={artist.id}
-                    draggable
-                    onDragStart={(e) => handleDragStart(e, index)}
-                    onDragOver={handleDragOver}
+                    data-card
+                    onDragOver={(e) => handleDragOver(e, index)}
                     onDrop={(e) => handleDrop(e, index)}
                     onClick={() => toggleArtistSelection(artist.id)}
-                    className="rounded-lg overflow-hidden cursor-pointer transition-all"
+                    className="rounded-lg overflow-hidden cursor-pointer transition-all duration-200"
                     style={{
                       backgroundColor: '#0F0F0F',
-                      border: isSelected ? '3px solid #DCD3B8' : '2px solid #806D4B',
-                      boxShadow: isSelected ? '0 0 20px rgba(220, 211, 184, 0.3)' : 'none',
+                      border: isDragOver
+                        ? '3px dashed #DCD3B8'
+                        : isSelected
+                          ? '3px solid #DCD3B8'
+                          : '2px solid #806D4B',
+                      boxShadow: isDragOver
+                        ? '0 0 25px rgba(220, 211, 184, 0.5)'
+                        : isSelected
+                          ? '0 0 20px rgba(220, 211, 184, 0.3)'
+                          : 'none',
+                      opacity: isDragging ? 0.4 : 1,
+                      transform: isDragOver ? 'scale(1.03)' : 'scale(1)',
                     }}
                   >
                     <div className="relative aspect-square">
@@ -501,12 +537,32 @@ export default function DashboardFamilyPage() {
                         alt={artist.name}
                         fill
                         className="object-cover"
+                        draggable={false}
                       />
+
+                      {/* Drag Handle - top right */}
+                      <div
+                        draggable
+                        onDragStart={(e) => {
+                          e.stopPropagation();
+                          handleDragStart(e, index);
+                        }}
+                        onDragEnd={handleDragEnd}
+                        onClick={(e) => e.stopPropagation()}
+                        className="absolute top-2 right-2 p-2 rounded cursor-grab active:cursor-grabbing transition-all hover:scale-110"
+                        style={{
+                          backgroundColor: 'rgba(15, 15, 15, 0.9)',
+                          color: '#DCD3B8',
+                        }}
+                        title="Drag to reorder"
+                      >
+                        <GripVertical className="w-5 h-5" />
+                      </div>
 
                       {/* Selection Overlay */}
                       {isSelected && (
                         <div
-                          className="absolute inset-0 flex items-center justify-center"
+                          className="absolute inset-0 flex items-center justify-center pointer-events-none"
                           style={{ backgroundColor: 'rgba(220, 211, 184, 0.3)' }}
                         >
                           <div
@@ -527,6 +583,25 @@ export default function DashboardFamilyPage() {
                               <polyline points="20 6 9 17 4 12" />
                             </svg>
                           </div>
+                        </div>
+                      )}
+
+                      {/* Drag Over Indicator */}
+                      {isDragOver && (
+                        <div
+                          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                          style={{ backgroundColor: 'rgba(220, 211, 184, 0.2)' }}
+                        >
+                          <span
+                            className="px-4 py-2 rounded-lg text-sm font-medium"
+                            style={{
+                              backgroundColor: 'rgba(15, 15, 15, 0.9)',
+                              color: '#DCD3B8',
+                              fontFamily: 'var(--font-pangea)',
+                            }}
+                          >
+                            Drop here
+                          </span>
                         </div>
                       )}
 
