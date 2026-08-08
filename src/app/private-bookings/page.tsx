@@ -11,6 +11,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { NotificationDialog } from "@/components/ui/notification-dialog";
+import { fbTrack, fbTrackCustom } from "@/lib/fbpixel";
 
 export default function PrivateBookingsPage() {
   const [moonTopPosition, setMoonTopPosition] = useState('50%');
@@ -88,6 +89,20 @@ export default function PrivateBookingsPage() {
       if (!response.ok) {
         throw new Error('Failed to send email');
       }
+
+      fbTrack('Lead', {
+        content_name: 'Private Booking Request',
+        content_category: formData.eventType || 'Private Event',
+      });
+      fbTrack('Schedule', {
+        content_name: 'Private Booking Request',
+        content_category: formData.eventType || 'Private Event',
+      });
+      fbTrackCustom('PrivateBookingRequest', {
+        event_type: formData.eventType || 'Private Event',
+        guest_count: formData.guestCount,
+        event_date: eventDate ? format(eventDate, "yyyy-MM-dd") : undefined,
+      });
 
       setNotification({
         open: true,
