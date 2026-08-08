@@ -95,6 +95,9 @@ export default function PrivateBookingsPage() {
       window.history.replaceState(null, '', '/private-bookings?success=true');
       fbTrack('PageView');
 
+      fbTrack('CompleteRegistration', {
+        value: 1,
+      });
       fbTrack('Lead', {
         content_name: 'Private Booking Request',
         content_category: formData.eventType || 'Private Event',
