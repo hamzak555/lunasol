@@ -90,6 +90,11 @@ export default function PrivateBookingsPage() {
         throw new Error('Failed to send email');
       }
 
+      // Update the URL so Meta can match a URL-based custom conversion,
+      // then fire PageView so the pixel records a visit at the success URL.
+      window.history.replaceState(null, '', '/private-bookings?success=true');
+      fbTrack('PageView');
+
       fbTrack('Lead', {
         content_name: 'Private Booking Request',
         content_category: formData.eventType || 'Private Event',
@@ -669,7 +674,13 @@ export default function PrivateBookingsPage() {
 
       <NotificationDialog
         open={notification.open}
-        onOpenChange={(open) => setNotification({ ...notification, open })}
+        onOpenChange={(open) => {
+          if (!open && notification.type === 'success') {
+            // Remove the success param so a refresh doesn't re-count the conversion
+            window.history.replaceState(null, '', '/private-bookings');
+          }
+          setNotification({ ...notification, open });
+        }}
         title={notification.title}
         description={notification.description}
         type={notification.type}
