@@ -245,9 +245,27 @@ export function Header() {
 
           <div className="self-stretch" style={{ width: '1px', backgroundColor: '#806D4B' }} />
 
-          {/* Book Now Button */}
+          {/* Book a VIP Table Button */}
+          <a
+            href="https://wa.me/17866691989?text=Hello%2C%20I%20would%20like%20to%20make%20a%20reservation%20for%20LUNASOL.%20Thank%20you."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center px-8 text-base font-bold tracking-wide transition-all hover:bg-[#806D4B] hover:text-[#0F0F0F]"
+            style={{
+              color: '#DCD3B8',
+              fontFamily: 'var(--font-gascogne)',
+              paddingTop: '0.85rem',
+              paddingBottom: '0.65rem',
+            }}
+          >
+            BOOK A VIP TABLE
+          </a>
+
+          <div className="self-stretch" style={{ width: '1px', backgroundColor: '#806D4B' }} />
+
+          {/* Upcoming Events Button */}
           <Link
-            href="/book-now"
+            href="/events"
             className="flex items-center justify-center px-8 text-base font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#0F0F0F]"
             style={{
               backgroundColor: '#806D4B',
@@ -257,7 +275,7 @@ export function Header() {
               paddingBottom: '0.65rem',
             }}
           >
-            BOOK NOW
+            UPCOMING EVENTS
           </Link>
         </div>
       </nav>
@@ -407,9 +425,25 @@ export function Header() {
               </Link>
             </div>
 
-            {/* Book Now Button */}
+            {/* Book a VIP Table Button */}
+            <a
+              href="https://wa.me/17866691989?text=Hello%2C%20I%20would%20like%20to%20make%20a%20reservation%20for%20LUNASOL.%20Thank%20you."
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="mx-6 mt-4 py-3 text-center text-base font-bold tracking-wide transition-all hover:bg-[#806D4B] hover:text-[#0F0F0F]"
+              style={{
+                color: '#DCD3B8',
+                fontFamily: 'var(--font-gascogne)',
+                border: '1px solid #806D4B',
+              }}
+            >
+              BOOK A VIP TABLE
+            </a>
+
+            {/* Upcoming Events Button */}
             <Link
-              href="/book-now"
+              href="/events"
               onClick={() => setIsMobileMenuOpen(false)}
               className="mx-6 my-4 py-3 text-center text-base font-bold tracking-wide transition-all hover:bg-[#DCD3B8] hover:text-[#0F0F0F]"
               style={{
@@ -418,7 +452,7 @@ export function Header() {
                 fontFamily: 'var(--font-gascogne)',
               }}
             >
-              BOOK NOW
+              UPCOMING EVENTS
             </Link>
           </div>
         </div>

@@ -86,6 +86,15 @@ export function Footer() {
               >
                 Events
               </Link>
+              <a
+                href="https://wa.me/17866691989?text=Hello%2C%20I%20would%20like%20to%20make%20a%20reservation%20for%20LUNASOL.%20Thank%20you."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm transition-colors text-[#DCD3B8] hover:text-[#806D4B]"
+                style={{ fontFamily: 'var(--font-pangea)' }}
+              >
+                Book a VIP Table
+              </a>
               <Link
                 href="/gallery"
                 className="text-sm transition-colors text-[#DCD3B8] hover:text-[#806D4B]"
@@ -122,6 +131,15 @@ export function Footer() {
                 >
                   Events
                 </Link>
+                <a
+                  href="https://wa.me/17866691989?text=Hello%2C%20I%20would%20like%20to%20make%20a%20reservation%20for%20LUNASOL.%20Thank%20you."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm transition-colors text-[#DCD3B8] hover:text-[#806D4B]"
+                  style={{ fontFamily: 'var(--font-pangea)' }}
+                >
+                  Book a VIP Table
+                </a>
                 <Link
                   href="/gallery"
                   className="text-sm transition-colors text-[#DCD3B8] hover:text-[#806D4B]"
